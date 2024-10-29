@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PPE Detection System</title>
+    <link rel="stylesheet" href="../static/css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>Welcome to our PPE Detection System</h1>
+        <h2>Login</h2>
+        <form method="POST" action="{{ url_for('login_bp.login') }}">
+            {{ form.hidden_tag() }}  <!-- CSRF protection -->
+            <div class="input-group">
+                <label for="username">Username</label>
+                {{ form.username(class="form-control", id="username") }} <!-- Flask-WTF form field -->
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                {{ form.password(class="form-control", id="password") }} <!-- Flask-WTF form field -->
+            </div>
+            <div class="input-group">
+                {{ form.submit(class="btn btn-primary") }} <!-- Flask-WTF submit button -->
+            </div>
+            <div class="signup-link">
+                <p>Don't have an account? <a href="../templates/signup_page.html">Sign Up</a></p>
+            </div>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="error-message">
+                  {{ messages[0] }}
+                </div>
+              {% endif %}
+            {% endwith %}
+        </form>
+    </div>
+</body>
+</html>
