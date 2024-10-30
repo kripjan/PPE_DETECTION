@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - PPE Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('signup_bp.static', filename='signup.css') }}">
+</head>
+<body>
+    <div class="signup-container">
+        <h1>Register for PPE Detection System</h1>
+        <form method="POST" action="{{ url_for('signup_bp.signup') }}">
+            {{ form.hidden_tag() }}  <!-- CSRF protection -->
+            <div class="input-group">
+                <label for="first_name">First Name</label>
+                {{ form.first_name(class="form-control", id="first_name") }}
+            </div>
+            <div class="input-group">
+                <label for="last_name">Last Name</label>
+                {{ form.last_name(class="form-control", id="last_name") }}
+            </div>
+            <div class="input-group">
+                <label for="phone_number">Phone Number</label>
+                {{ form.phone_number(class="form-control", id="phone_number") }}
+            </div>
+            <div class="input-group">
+                <label for="email">Email</label>
+                {{ form.email(class="form-control", id="email") }}
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                {{ form.pword(class="form-control", id="pword") }}
+            </div>
+            <div class="input-group">
+                <label for="confirm_password">Confirm Password</label>
+                {{ form.confirm_pword(class="form-control", id="confirm_pword") }}
+            </div>
+            <div class="input-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="error-message">
+                  {{ messages[0] }}
+                </div>
+              {% endif %}
+            {% endwith %}
+        </form>
+        <div class="signup-link">
+            <p>Already have an account? <a href="{{ url_for('login_bp.login') }}">Login</a></p>
+        </div>
+    </div>
+</body>
+</html>

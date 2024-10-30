@@ -1,7 +1,9 @@
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
-# from config import Config  # Import your configuration class
-from .login_bp_folder import login_bp  # Adjust according to your folder structure
+import cx_Oracle
+# from config import Config
+from .login_bp_folder import login_bp
+from .signup_bp_folder import signup_bp
 
 def create_app():
     app = Flask(__name__)
@@ -11,8 +13,18 @@ def create_app():
     # Initialize CSRF protection
     csrf = CSRFProtect(app)
 
+    try:
+        app.config['ORACLE_CONN'] = cx_Oracle.connect(
+            user='ppe',
+            password='ppe',
+            dsn='localhost/XEPDB1'  # DSN of Oracle setup
+        )
+    except cx_Oracle.DatabaseError as e:
+        print(f"Database connection error: {e}")
+
     # Register blueprints
-    app.register_blueprint(login_bp)
+    app.register_blueprint(login_bp) # login blueprint
+    app.register_blueprint(signup_bp) # signup blueprint
 
     return app
 

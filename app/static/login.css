@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-image: url('../images/login_page_bg.png');
+    background-image: url('../static/images/login_page_bg.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

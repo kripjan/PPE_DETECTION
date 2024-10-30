@@ -24,7 +24,7 @@
                 {{ form.submit(class="btn btn-primary") }} <!-- Flask-WTF submit button -->
             </div>
             <div class="signup-link">
-                <p>Don't have an account? <a href="../templates/signup_page.html">Sign Up</a></p>
+                <p>Don't have an account? <a href="{{ url_for('signup_bp.signup') }}">Sign Up</a></p>
             </div>
             {% with messages = get_flashed_messages() %}
               {% if messages %}
