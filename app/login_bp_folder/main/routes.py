@@ -1,7 +1,7 @@
 # In your auth blueprint or where your login route is
 from flask import render_template, redirect, url_for, flash
-from login_bp_folder.main.forms import LoginForm
-from login_bp_folder import login_bp
+from .forms import LoginForm
+from .. import login_bp
 
 @login_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -16,4 +16,4 @@ def login():
         else:
             flash('Login failed. Check your username and password.')
 
-    return render_template('login.html', form=form)
+    return render_template('login_page.html', form=form)
