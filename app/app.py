@@ -7,6 +7,7 @@ def create_app():
     app = Flask(__name__)
     # app.config.from_object(Config)  # Load configuration from config.py
 
+    app.secret_key = 'krijan'
     # Initialize CSRF protection
     csrf = CSRFProtect(app)
 
@@ -15,6 +16,3 @@ def create_app():
 
     return app
 
-if __name__ == '__main__':
-    app = create_app()
-    app.run(debug=True)
