@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Monitoring - PPE Detection System</title>
-    <link rel="stylesheet" href="monitoring.css">
+    <link rel="stylesheet" href="../../static/monitoring.css">
 </head>
 <body>
     <div class="navbar">
@@ -32,15 +32,9 @@
                     <div class="camera-feed">
                         <h3>Camera Feed</h3>
                         <div class="feed">
+
                             <!-- Camera feed goes here -->
-                            <img src="cctv.webp" alt="Camera Feed" width="400" height="300">
-                        </div>
-                    </div>
-                    <div class="detection-overlay">
-                        <h3>Detection Overlay</h3>
-                        <div class="overlay">
-                            <!-- Detection overlay goes here -->
-                            <img src="detection.png" alt="Detection Overlay" width="400">
+                            <img src="{{ url_for('monitoring_bp.video_feed') }}" alt="Camera Feed" width="400" height="300">
                         </div>
                     </div>
                     <div class="control-panel">
