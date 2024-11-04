@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Monitoring - PPE Detection System</title>
+    <link rel="stylesheet" href="monitoring.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-brand">PPE Detection System</div>
+        <div class="navbar-links">
+            <a href="homepage.html">Home</a>
+            <a href="#">Profile</a>
+            <a href="#">Logout</a>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="monitoring.html">Live Monitoring</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="setting.html">Settings</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="section" id="live-monitoring">
+                <h2>Live Monitoring</h2>
+                <div class="live-monitoring-content">
+                    <div class="camera-feed">
+                        <h3>Camera Feed</h3>
+                        <div class="feed">
+                            <!-- Camera feed goes here -->
+                            <img src="cctv.webp" alt="Camera Feed" width="400" height="300">
+                        </div>
+                    </div>
+                    <div class="detection-overlay">
+                        <h3>Detection Overlay</h3>
+                        <div class="overlay">
+                            <!-- Detection overlay goes here -->
+                            <img src="detection.png" alt="Detection Overlay" width="400">
+                        </div>
+                    </div>
+                    <div class="control-panel">
+                        <h3>Control Panel</h3>
+                        <div class="controls">
+                            <button>Start</button>
+                            <button>Stop</button>
+                            <button>Settings</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
