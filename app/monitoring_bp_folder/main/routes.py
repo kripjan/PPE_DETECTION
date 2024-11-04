@@ -27,6 +27,10 @@ def generate_feed():
         # Perform inference
         results = model(frame)  # Use the model to perform detection
 
+        # Class names and color mapping
+        classNames = ['Hardhat', 'Mask', 'NO-Hardhat', 'NO-Mask', 'NO-Safety Vest', 'Person', 'Safety Cone',
+              'Safety Vest', 'machinery', 'vehicle']
+
         # Process results
         for result in results:
             if len(result.boxes) > 0:  # Check if there are any detected boxes
@@ -42,9 +46,18 @@ def generate_feed():
                     # Get the label from the names dictionary
                     label = result.names[cls_idx] if cls_idx in result.names else "Unknown"
 
+                    # Set the color based on the class
+                    if label == "Person":
+                        color = (255, 0, 0)  # Blue for person
+                    elif label in ["NO-Hardhat", "NO-Safety Vest", "NO-Mask"]:
+                        color = (0, 0, 255)  # Red for no-hardhat, no-safetyvest, no-mask
+                    else:
+                        color = (0, 255, 0)  # Green for all other detections
+
                     # Draw bounding box and label on the frame
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)  # Draw bounding box
-                    cv2.putText(frame, f'{label} {conf:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)  # Draw label
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)  # Draw bounding box with the selected color
+                    cv2.putText(frame, f'{label} {conf:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)  # Draw label
+
 
         # Convert the frame to JPEG format
         _, buffer = cv2.imencode('.jpg', frame)
