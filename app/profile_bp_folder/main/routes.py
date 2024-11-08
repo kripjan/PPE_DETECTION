@@ -1,5 +1,6 @@
 # In your auth blueprint or where your profile route is
 from flask import render_template, redirect, url_for, flash
+from ..import profile_bp
 
 
 @profile_bp.route('/profile', methods=['GET'])
