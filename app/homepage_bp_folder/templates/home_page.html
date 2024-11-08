@@ -10,17 +10,17 @@
     <div class="navbar">
         <div class="navbar-brand">PPE Detection System</div>
         <div class="navbar-links">
-            <a href="../templates/home_page.html">Home</a>
-            <a href="../../profile_bp_folder/templates/profile_page.html">Profile</a>
+            <a href="{{ url_for('homepage_bp.homepage') }}">Home</a>
+            <a href="{{ url_for('user_bp.profile') }}">Profile</a>
             <a href="#" id="logout">Logout</a>
         </div>
     </div>
     <div class="main-container">
         <div class="sidebar">
             <ul>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="monitoring.html">Live Monitoring</a></li>
-                <li><a href="#">Reports</a></li>
+                <li><a href="{{ url_for('homepage_bp.homepage') }}">Home</a></li>
+                <li><a href="{{ url_for('monitoring_bp.show_camerafeed') }}">Live Monitoring</a></li>
+                <li><a href="">Reports</a></li>
                 <li><a href="settings.html">Settings</a></li>
             </ul>
         </div>
