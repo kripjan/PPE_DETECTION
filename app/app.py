@@ -5,6 +5,8 @@ import cx_Oracle
 from .login_bp_folder import login_bp
 from .signup_bp_folder import signup_bp
 from .monitoring_bp_folder import monitoring_bp
+from .homepage_bp_folder import homepage_bp
+from .profile_bp_folder import profile_bp
 
 def create_app():
     app = Flask(__name__)
@@ -27,6 +29,8 @@ def create_app():
     app.register_blueprint(login_bp) # login blueprint
     app.register_blueprint(signup_bp) # signup blueprint
     app.register_blueprint(monitoring_bp) # signup blueprint
+    app.register_blueprint(homepage_bp) #homepage blueprint
+    app.register_blueprint(profile_bp) #homepage blueprint
     
     return app
 
