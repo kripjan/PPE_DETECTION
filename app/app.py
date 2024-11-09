@@ -18,7 +18,7 @@ def create_app():
 
     try:
         app.config['ORACLE_CONN'] = cx_Oracle.connect(
-            user='ppe',
+            user='ppe', # database ko account name
             password='ppe',
             dsn='localhost/XEPDB1'  # DSN of Oracle setup
         )

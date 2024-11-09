@@ -12,12 +12,8 @@
         <form method="POST" action="{{ url_for('signup_bp.signup') }}">
             {{ form.hidden_tag() }}  <!-- CSRF protection -->
             <div class="input-group">
-                <label for="first_name">First Name</label>
-                {{ form.first_name(class="form-control", id="first_name") }}
-            </div>
-            <div class="input-group">
-                <label for="last_name">Last Name</label>
-                {{ form.last_name(class="form-control", id="last_name") }}
+                <label for="company_name">Company Name</label>
+                {{ form.company_name(class="form-control", id="company_name") }}
             </div>
             <div class="input-group">
                 <label for="phone_number">Phone Number</label>
@@ -28,11 +24,11 @@
                 {{ form.email(class="form-control", id="email") }}
             </div>
             <div class="input-group">
-                <label for="password">Password</label>
+                <label for="pword">Password</label>
                 {{ form.pword(class="form-control", id="pword") }}
             </div>
             <div class="input-group">
-                <label for="confirm_password">Confirm Password</label>
+                <label for="confirm_pword">Confirm Password</label>
                 {{ form.confirm_pword(class="form-control", id="confirm_pword") }}
             </div>
             <div class="input-group">
