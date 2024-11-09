@@ -1,18 +1,21 @@
 # In your auth blueprint or where your login route is
 from flask import render_template, redirect, url_for, flash
+from app.signup_bp_folder.main.models.company_model import Company
 from .forms import LoginForm
 from .. import login_bp
+from database import db
 
 @login_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        username = form.username.data
-        password = form.password.data
+        company_name = form.username.data
+        pword = form.pword.data
         
-        # Add your logic here to check username and password
-        if username == 'correct_username' and password == 'correct_password':  # Replace with your logic
-            return redirect(url_for('main.home'))
+        company_obj = db.session.query(Company).filter_by(company_name=company_name).first()
+        
+        if company_obj and company_obj.check_password(pword):
+            return redirect(url_for('homepage_bp.homepage'))
         else:
             flash('Login failed. Check your username and password.')
 

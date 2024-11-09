@@ -7,6 +7,7 @@ from .signup_bp_folder import signup_bp
 from .monitoring_bp_folder import monitoring_bp
 from .homepage_bp_folder import homepage_bp
 from .profile_bp_folder import profile_bp
+from database import db
 
 def create_app():
     app = Flask(__name__)
@@ -17,12 +18,11 @@ def create_app():
     csrf = CSRFProtect(app)
 
     try:
-        app.config['ORACLE_CONN'] = cx_Oracle.connect(
-            user='ppe', # database ko account name
-            password='ppe',
-            dsn='localhost/XEPDB1'  # DSN of Oracle setup
-        )
-    except cx_Oracle.DatabaseError as e:
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'oracle+cx_oracle://ppe:ppe@KRICTUS:1521/XE'
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        db.init_app(app)
+
+    except Exception as e:
         print(f"Database connection error: {e}")
 
     # Register blueprints

@@ -13,12 +13,12 @@
         <form method="POST" action="{{ url_for('login_bp.login') }}">
             {{ form.hidden_tag() }}  <!-- CSRF protection -->
             <div class="input-group">
-                <label for="username">Username</label>
-                {{ form.username(class="form-control", id="username") }} <!-- Flask-WTF form field -->
+                <label for="company_name">Username</label>
+                {{ form.company_name(class="form-control", id="company_name") }} <!-- Flask-WTF form field -->
             </div>
             <div class="input-group">
-                <label for="password">Password</label>
-                {{ form.password(class="form-control", id="password") }} <!-- Flask-WTF form field -->
+                <label for="pword">Password</label>
+                {{ form.pword(class="form-control", id="pword") }} <!-- Flask-WTF form field -->
             </div>
             <div class="input-group">
                 {{ form.submit(class="btn btn-primary") }} <!-- Flask-WTF submit button -->
