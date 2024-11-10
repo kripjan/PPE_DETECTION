@@ -28,7 +28,7 @@ def create_app():
 
     except Exception as e:
         print(f"Database connection error: {e}")
-
+        
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'login_bp.login' 
