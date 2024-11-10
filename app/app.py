@@ -8,6 +8,10 @@ from .monitoring_bp_folder import monitoring_bp
 from .homepage_bp_folder import homepage_bp
 from .profile_bp_folder import profile_bp
 from database import db
+from flask_login import LoginManager
+from app.signup_bp_folder.main.models.company_model import Company
+
+
 
 def create_app():
     app = Flask(__name__)
@@ -24,6 +28,14 @@ def create_app():
 
     except Exception as e:
         print(f"Database connection error: {e}")
+
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+    login_manager.login_view = 'login_bp.login' 
+
+    @login_manager.user_loader
+    def load_user(company_id):
+        return Company.query.get(int(company_id))
 
     # Register blueprints
     app.register_blueprint(login_bp) # login blueprint

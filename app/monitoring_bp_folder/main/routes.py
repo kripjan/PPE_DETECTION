@@ -3,6 +3,7 @@ import math
 import cv2
 import cvzone
 from flask import Response, render_template
+from flask_login import login_required
 # from .forms import LoginForm
 from .. import monitoring_bp
 from ultralytics import YOLO
@@ -11,6 +12,7 @@ from ultralytics import YOLO
 model = YOLO("app\monitoring_bp_folder\models\ppe-detection-model.pt")
 
 @monitoring_bp.route('/camerafeed', methods=['GET'])
+@login_required
 def show_camerafeed():
     # Render the HTML page with the video feed placeholder
     return render_template('camerafeed_page.html')
@@ -72,6 +74,7 @@ def generate_feed():
 
 
 @monitoring_bp.route('/video_feed')
+@login_required
 def video_feed():
     # Stream the frames from the `generate_frames` function
     return Response(generate_feed(), mimetype='multipart/x-mixed-replace; boundary=frame')
