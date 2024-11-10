@@ -1,4 +1,5 @@
 from database import db
+from app.monitoring_bp_folder.models.camera_model import Camera
 
 # Frames Model
 class Frame(db.Model):
