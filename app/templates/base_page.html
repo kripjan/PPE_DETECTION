@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PPE Detection System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('app.static', filename='base_page.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-brand">PPE Detection System</div>
+        <div class="navbar-links">
+            <a href="{{ url_for('dashboard.homepage') }}">Home</a>
+            <a href="{{ url_for('profile.profile') }}">Profile</a>
+            <a href="{{ url_for('dashboard.logout') }}" id="logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Container with Sidebar -->
+    <div class="main-container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="{{ url_for('detection.livefeed') }}">Live Monitoring</a></li>
+                <li><a href="{{ url_for('detection.reports') }}">Reports</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+        {% block content %}
+        <!-- Child pages will insert content here -->
+        {% endblock %}
+    </div>
+</body>
+</html>

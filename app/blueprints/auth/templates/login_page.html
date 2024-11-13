@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PPE Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('auth.static', filename='login.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <h1>Welcome to our PPE Detection System</h1>
+        <h2>Login</h2>
+        <form method="POST" action="{{ url_for('auth.login') }}">
+            {{ form.hidden_tag() }}  <!-- CSRF protection -->
+            <div class="input-group">
+                <label for="company_email">Company Email</label>
+                {{ form.company_email(class="form-control", id="company_email") }} <!-- Flask-WTF form field -->
+            </div>
+            <div class="input-group">
+                <label for="pword">Password</label>
+                {{ form.pword(class="form-control", id="pword") }} <!-- Flask-WTF form field -->
+            </div>
+            <div class="input-group">
+                {{ form.submit(class="btn btn-primary") }} <!-- Flask-WTF submit button -->
+            </div>
+            <div class="signup-link">
+                <p>Don't have an account? <a href="{{ url_for('auth.signup') }}">Sign Up</a></p>
+            </div>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="error-message">
+                  {{ messages[0] }}
+                </div>
+              {% endif %}
+            {% endwith %}
+        </form>
+    </div>
+</body>
+</html>
