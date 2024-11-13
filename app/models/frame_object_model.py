@@ -1,4 +1,4 @@
-from database import db
+from app import db
 
 # FrameObject Model (Bridge Table between Frames and Objects)
 class FrameObject(db.Model):

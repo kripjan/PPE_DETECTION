@@ -6,4 +6,4 @@ auth = Blueprint('auth', __name__,
                  static_folder = 'static',
                  static_url_path = '/auth/static')
 
-from app.auth.routes import *
+from app.blueprints.auth.routes import *

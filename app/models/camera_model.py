@@ -1,4 +1,4 @@
-from database import db
+from app import db
 # Cameras Model
 class Camera(db.Model):
     __tablename__ = 'cameras'

@@ -1,8 +1,8 @@
 # In your auth blueprint or where your login route is
 from flask import render_template, redirect, url_for, flash
 from app.models.company_model import Company
-from app.auth.forms.login_form import LoginForm
-from app.auth import auth
+from app.blueprints.auth.forms.login_form import LoginForm
+from app.blueprints.auth import auth
 from app import db
 from flask_login import login_user
 
@@ -18,7 +18,7 @@ def login():
 
         if company_obj and company_obj.check_pword(pword):
             login_user(company_obj)  # Flask-Login will handle user session
-            return redirect(url_for('homepage_bp.homepage'))
+            return redirect(url_for('dashboard.homepage'))
         else:
             flash('Login failed. Check your username and password.')
 

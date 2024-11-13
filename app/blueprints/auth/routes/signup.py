@@ -3,8 +3,8 @@ from sqlite3 import DataError, IntegrityError, OperationalError
 from flask import render_template, redirect, url_for, flash
 from app import db
 from app.models.company_model import Company
-from app.auth import auth
-from app.auth.forms import CompanyForm
+from app.blueprints.auth import auth
+from app.blueprints.auth.forms.company_form import CompanyForm
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():

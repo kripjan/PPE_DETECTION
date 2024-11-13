@@ -1,8 +1,7 @@
 from wtforms_alchemy import ModelForm
-from wtforms import PasswordField
-from wtforms.validators import DataRequired, Email, Length, Optional
+from wtforms import PasswordField, StringField
+from wtforms.validators import DataRequired, Email, Length, EqualTo
 from app.models.company_model import Company  # Update to your actual import path
-from app import db
 
 class CompanyForm(ModelForm):
     class Meta:
@@ -11,7 +10,8 @@ class CompanyForm(ModelForm):
         exclude = ['pword']
         # Set the session, if needed, to access the database context for validation
 
-    email = db.EmailField(validators=[DataRequired(), Email(), Length(max=255)])
-    phone_number = db.StringField(validators=[DataRequired(), Length(max=20)])
+    email = StringField(validators=[DataRequired(), Email(), Length(max=255)])
+    phone_number = StringField(validators=[DataRequired(), Length(max=20)])
     form_pword = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
+    confirm_form_pword = PasswordField('Confirm Password', validators=[DataRequired(), Length(min=6), EqualTo('form_pword')])
 
