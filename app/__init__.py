@@ -18,9 +18,6 @@ def create_app():
     except Exception as e:
         print(f"Database connection error: {e}")
 
-    from flask_migrate import Migrate
-    migrate = Migrate(app, db)
-
     # importing model classes for migrating
     from app.models.company_model import Company
     from app.models.camera_model import Camera
@@ -38,15 +35,16 @@ def create_app():
     def load_user(company_id):
         return Company.query.get(int(company_id))
 
-    # Register blueprints
-    from app.blueprints.auth import auth
-    from app.blueprints.dashboard import dashboard
-    from app.blueprints.detection import detection
-    from app.blueprints.profile import profile
+    with app.app_context():
+        # Register blueprints
+        from app.blueprints.auth.routes import auth
+        from app.blueprints.dashboard.routes import dashboard
+        from app.blueprints.detection import detection
+        from app.blueprints.profile import profile
 
-    app.register_blueprint(auth, url_prefix='/auth') # auth blueprint
-    app.register_blueprint(dashboard, url_prefix='/dashboard') # dashboard blueprint
-    app.register_blueprint(detection, url_prefix='/detection') # detection blueprint
-    app.register_blueprint(profile) # profile blueprint
+        app.register_blueprint(auth, url_prefix='/auth') # auth blueprint
+        app.register_blueprint(dashboard, url_prefix='/dashboard') # dashboard blueprint
+        app.register_blueprint(detection, url_prefix='/detection') # detection blueprint
+        app.register_blueprint(profile) # profile blueprint
     
     return app

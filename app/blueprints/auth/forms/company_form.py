@@ -1,9 +1,10 @@
+from flask_wtf import FlaskForm
 from wtforms_alchemy import ModelForm
 from wtforms import PasswordField, StringField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from app.models.company_model import Company  # Update to your actual import path
 
-class CompanyForm(ModelForm):
+class CompanyForm(ModelForm, FlaskForm):
     class Meta:
         model = Company
         # Exclude hashed password field, we’ll handle it separately
