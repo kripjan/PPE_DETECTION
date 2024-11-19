@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}PPE Detection System{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('app.static', filename='base_page.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='base_page.css') }}">
 </head>
 <body>
     <!-- Navbar -->
     <div class="navbar">
         <div class="navbar-brand">PPE Detection System</div>
         <div class="navbar-links">
-            <a href="{{ url_for('dashboard.homepage') }}">Home</a>
-            <a href="{{ url_for('profile.profile') }}">Profile</a>
+            <a href="{{ url_for('dashboard.home_page') }}">Home</a>
+            <a href="{{ url_for('profile.profile_page') }}">Profile</a>
             <a href="{{ url_for('dashboard.logout') }}" id="logout">Logout</a>
         </div>
     </div>

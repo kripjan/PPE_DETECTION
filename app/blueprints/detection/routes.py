@@ -112,7 +112,7 @@ from app.blueprints.detection import detection
 
 @detection.route('/reports', methods=['GET'])
 @login_required
-def reports():
+def reports_page():
     return render_template('reports_page.html')
 
 

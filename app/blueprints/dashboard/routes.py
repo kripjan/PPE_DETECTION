@@ -8,5 +8,5 @@ dashboard = Blueprint('dashboard', __name__,
                       static_url_path = '/dashboard/static')
 
 @dashboard.route('/home', methods=['GET'])
-def homepage():
+def home_page():
     return render_template('home_page.html')

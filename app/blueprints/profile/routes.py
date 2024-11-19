@@ -6,5 +6,5 @@ from app.blueprints.profile import profile
 
 @profile.route('/profile', methods=['GET'])
 @login_required
-def profile():
+def profile_page():
     return render_template('profile_page.html')
