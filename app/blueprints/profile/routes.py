@@ -1,7 +1,14 @@
 # In your auth blueprint or where your profile route is
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_required
-from app.blueprints.profile import profile
+# from app.blueprints.profile import profile
+
+from flask import Blueprint
+
+profile = Blueprint('profile', __name__,
+                      template_folder = 'templates',
+                      static_folder = 'static',
+                      static_url_path = '/profile/static')
 
 
 @profile.route('/profile', methods=['GET'])

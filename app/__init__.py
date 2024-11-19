@@ -40,7 +40,7 @@ def create_app():
         from app.blueprints.auth.routes import auth
         from app.blueprints.dashboard.routes import dashboard
         from app.blueprints.detection import detection
-        from app.blueprints.profile import profile
+        from app.blueprints.profile.routes import profile
 
         app.register_blueprint(auth, url_prefix='/auth') # auth blueprint
         app.register_blueprint(dashboard, url_prefix='/dashboard') # dashboard blueprint
