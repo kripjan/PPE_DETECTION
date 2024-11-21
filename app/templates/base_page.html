@@ -13,7 +13,7 @@
         <div class="navbar-links">
             <a href="{{ url_for('dashboard.home_page') }}">Home</a>
             <a href="{{ url_for('profile.profile_page') }}">Profile</a>
-            <a href="{{ url_for('dashboard.logout') }}" id="logout">Logout</a>
+            <a href="{{ url_for('auth.logout') }}" id="logout">Logout</a>
         </div>
     </div>
 
@@ -21,8 +21,8 @@
     <div class="main-container">
         <div class="sidebar">
             <ul>
-                <li><a href="{{ url_for('detection.livefeed') }}">Live Monitoring</a></li>
-                <li><a href="{{ url_for('detection.reports') }}">Reports</a></li>
+                <li><a href="{{ url_for('detection.live_feed_page') }}">Live Monitoring</a></li>
+                <li><a href="{{ url_for('detection.reports_page') }}">Reports</a></li>
                 <li><a href="settings.html">Settings</a></li>
             </ul>
         </div>

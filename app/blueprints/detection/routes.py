@@ -18,7 +18,7 @@ last_frame_datetime = None
 detection_started = False
 
 @detection.route('/stream_livefeed')
-# @login_required
+@login_required
 def stream_livefeed():
     # Stream the frames from the `generate_feed` function
     return Response(generate_livefeed(), mimetype='multipart/x-mixed-replace; boundary=frame')

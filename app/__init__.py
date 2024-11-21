@@ -36,12 +36,20 @@ def create_app():
         return Company.query.get(int(company_id))
 
     with app.app_context():
-        # Register blueprints
-        from app.blueprints.auth.routes import auth
-        from app.blueprints.dashboard.routes import dashboard
+        # import blueprints
+        from app.blueprints.auth import auth
+        from app.blueprints.dashboard import dashboard
         from app.blueprints.detection import detection
-        from app.blueprints.profile.routes import profile
+        from app.blueprints.profile import profile
 
+        # import blueprint routes
+        from app.blueprints.auth import routes
+        from app.blueprints.dashboard import routes
+        from app.blueprints.detection import routes
+        from app.blueprints.profile  import routes
+
+
+        # Register blueprints
         app.register_blueprint(auth, url_prefix='/auth') # auth blueprint
         app.register_blueprint(dashboard, url_prefix='/dashboard') # dashboard blueprint
         app.register_blueprint(detection, url_prefix='/detection') # detection blueprint

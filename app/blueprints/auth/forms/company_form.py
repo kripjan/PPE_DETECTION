@@ -1,5 +1,5 @@
-from flask_wtf import FlaskForm
-from wtforms_alchemy import ModelForm
+# from flask_wtf import FlaskForm
+from app.forms.base_modelform import ModelForm
 from wtforms import PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from app.models.company_model import Company  # Update to your actual import path
@@ -9,6 +9,8 @@ class CompanyForm(ModelForm):
         model = Company
         # Exclude hashed password field, we’ll handle it separately
         exclude = ['pword']
+
+        # field_args=
         # Set the session, if needed, to access the database context for validation
 
     form_pword = PasswordField('Password', validators=[DataRequired(), Length(min=6)])

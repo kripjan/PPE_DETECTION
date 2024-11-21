@@ -6,12 +6,7 @@ from app.blueprints.auth.forms.login_form import LoginForm
 from app import db
 from flask_login import login_user, logout_user
 from flask import current_app
-from flask import Blueprint
-
-auth = Blueprint('auth', __name__,
-                 template_folder = 'templates',
-                 static_folder = 'static',
-                 static_url_path = '/auth/static')
+from app.blueprints.auth import auth
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -19,7 +14,7 @@ def signup():
     if form.validate():
         company_name = form.company_name.data
         email = form.email.data
-        pword = form.pword.data
+        pword = form.form_pword.data
         phone_number = form.phone_number.data
 
         # creating a Company model object
@@ -58,7 +53,7 @@ def login():
 
         if company_obj and company_obj.check_pword(pword):
             login_user(company_obj)  # Flask-Login will handle user session
-            return redirect(url_for('dashboard.homepage'))
+            return redirect(url_for('dashboard.home_page'))
         else:
             flash('Login failed. Check your username and password.')
 
