@@ -71,3 +71,7 @@ body {
 .sidebar ul li a:hover {
     background-color: #2e4580;
 }
+
+.main-content {
+    margin-left: 25px;
+}
