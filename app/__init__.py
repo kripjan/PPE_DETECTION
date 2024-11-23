@@ -12,30 +12,30 @@ def create_app():
     # Initialize CSRF protection
     csrf = CSRFProtect(app)
 
-    try:
-        db.init_app(app)
-
-    except Exception as e:
-        print(f"Database connection error: {e}")
-
-    # importing model classes for migrating
-    from app.models.company_model import Company
-    from app.models.camera_model import Camera
-    from app.models.frame_model import Frame
-    from app.models.object_model import Object
-    from app.models.frame_object_model import FrameObject
-    
-    from flask_login import LoginManager
-    login_manager = LoginManager()
-    login_manager.init_app(app)
-    login_manager.login_view = 'auth.login' 
-
-    # user (ie, company) loader function 
-    @login_manager.user_loader
-    def load_user(company_id):
-        return Company.query.get(int(company_id))
-
     with app.app_context():
+        try:
+            db.init_app(app)
+
+        except Exception as e:
+            print(f"Database connection error: {e}")
+
+        # importing model classes for migrating
+        from app.models.company_model import Company
+        from app.models.camera_model import Camera
+        from app.models.frame_model import Frame
+        from app.models.object_model import Object
+        from app.models.frame_object_model import FrameObject
+        
+        from flask_login import LoginManager
+        login_manager = LoginManager()
+        login_manager.init_app(app)
+        login_manager.login_view = 'auth.login' 
+
+        # user (ie, company) loader function 
+        @login_manager.user_loader
+        def load_user(company_id):
+            return Company.query.get(int(company_id))
+
         # import blueprints
         from app.blueprints.auth import auth
         from app.blueprints.dashboard import dashboard
@@ -54,5 +54,5 @@ def create_app():
         app.register_blueprint(dashboard, url_prefix='/dashboard') # dashboard blueprint
         app.register_blueprint(detection, url_prefix='/detection') # detection blueprint
         app.register_blueprint(profile) # profile blueprint
-    
+        
     return app
