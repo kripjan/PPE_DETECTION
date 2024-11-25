@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}PPE Detection System{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='base_page.css') }}">
+    
 </head>
 <body>
     <!-- Navbar -->
@@ -17,10 +18,12 @@
         </div>
     </div>
 
-    <!-- Main Container with Sidebar -->
-    <div class="main-container">
-        <div class="sidebar">
-            <ul>
+     <!-- Main Container with Sidebar -->
+     <div class="main-container">
+        <!-- Sidebar with the toggle button -->
+        <div id="sidebar" class="sidebar">
+            <button class="toggle-btn">☰</button>
+            <ul class="menu">
                 <li><a href="{{ url_for('detection.live_feed_page') }}">Live Monitoring</a></li>
                 <li><a href="{{ url_for('detection.reports_page') }}">Reports</a></li>
                 <li><a href="settings.html">Settings</a></li>
@@ -33,5 +36,9 @@
             {% endblock %}
         </div>
     </div>
+    <script src="{{ url_for('static', filename='base_page.js') }}" defer></script>
 </body>
 </html>
+   
+        
+ 

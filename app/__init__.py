@@ -1,30 +1,34 @@
 from flask import Flask
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
-from app.config import Config
+from app.config import DevConfig, EmptyDbConfig
 
 db = SQLAlchemy()
+migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)  # Load configuration from config.py
+    app.config.from_object(DevConfig)  # Load configuration from config.py
 
     # Initialize CSRF protection
     csrf = CSRFProtect(app)
 
     with app.app_context():
-        try:
-            db.init_app(app)
-
-        except Exception as e:
-            print(f"Database connection error: {e}")
-
         # importing model classes for migrating
         from app.models.company_model import Company
         from app.models.camera_model import Camera
         from app.models.frame_model import Frame
         from app.models.object_model import Object
         from app.models.frame_object_model import FrameObject
+
+        try:
+            db.init_app(app)
+
+        except Exception as e:
+            print(f"Database connection error: {e}")
+
+        migrate.init_app(app, db)
         
         from flask_login import LoginManager
         login_manager = LoginManager()

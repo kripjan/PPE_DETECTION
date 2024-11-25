@@ -51,15 +51,16 @@ def generate_livefeed():
             processed_frame, detected_objects, violations_detected = process_frame(frame, results)
 
             # Save frames with violations to the database
-            if violations_detected:
-                # with current_app.app_context():
-                store_violating_frame(processed_frame, detected_objects)
 
             # Convert processed frame to JPEG for streaming
             _, buffer = cv2.imencode('.jpg', processed_frame)
             frame_bytes = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+            
+            if violations_detected:
+                # with current_app.app_context():
+                store_violating_frame(processed_frame, detected_objects, frame_bytes)
     finally:
         cam.release()
 
@@ -85,6 +86,7 @@ def process_frame(frame, results):
         for box in result.boxes:
             # Extract bounding box coordinates and details
             x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
+            conf = box.conf[0]  # Confidence score
             cls_idx = int(box.cls[0])
             label = result.names.get(cls_idx, "Unknown")
 
@@ -100,7 +102,8 @@ def process_frame(frame, results):
 
             # Draw bounding box and label
             cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            cv2.putText(frame, f'{label} {conf:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)  # Draw label
+
 
             # Check for violations
             if label in no_safety_labels and person_box:
@@ -110,7 +113,7 @@ def process_frame(frame, results):
 
     return frame, detected_objects, violations_detected
 
-def store_violating_frame(frame, detected_objects):
+def store_violating_frame(frame, detected_objects, frame_bytes):
     """
     Save the frame and detected objects to the database.
     
@@ -125,7 +128,7 @@ def store_violating_frame(frame, detected_objects):
         try:
             # with current_app.app_context():
             # Save frame metadata
-            new_frame = Frame(datetime=current_time, camera_id=0)  # Assuming camera ID is 0
+            new_frame = Frame(datetime=current_time, camera_id=0, image_data=frame_bytes)  # Assuming camera ID is 0
             db.session.add(new_frame)
             db.session.flush()  # Get frame ID before committing
 
@@ -150,3 +153,13 @@ def store_violating_frame(frame, detected_objects):
 @detection.route('/reports', methods=['GET'])
 def reports_page():
     return render_template('reports_page.html')
+
+# @detection.route('/frame_image/<int:frame_id>', methods=['GET'])
+# def get_frame_image(frame_id):
+#     """
+#     Retrieve and return the image stored in the database for the given frame ID.
+#     """
+#     frame = Frame.query.get(frame_id)
+#     if frame:
+#         return Response(frame.image_data, mimetype='image/jpeg')
+#     return 'Frame not found', 404
