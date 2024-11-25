@@ -1,158 +1,92 @@
-* {
-    box-sizing: border-box;
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-}
-
-html, body {
-    font-family: Arial, sans-serif;
-    overflow-x: hidden;
-    height: 100%;
-}
-
-.container {
     display: flex;
-    height: 100vh; /* Full viewport height */
-}
-
-/* Sidebar Styles */
-.sidebar {
-    background-color: #275c96; /* Slightly lighter shade of #214a84 */
-    color: #ffffff; /* Ensure text color is white */
-    width: 375px; /* 1.5 times original width */
+    flex-direction: column;
     height: 100vh;
-    padding: 30px; /* 1.5 times original padding */
-    position: fixed;
-    top: 0;
-    left: 0;
-    transition: width 0.3s ease; /* Smooth transition for width */
-    overflow-x: hidden;
-    z-index: 2;
-}
-
-.sidebar.collapsed {
-    width: 90px; 
-}
-
-/* Sidebar Toggle Button */
-.sidebar .toggle-btn {
-    background: none;
-    border: none;
-    color: #ffffff; /* Ensure button is white */
-    font-size: 45px; 
-    cursor: pointer;
-    margin-bottom: 30px; 
-    display: block;
-}
-
-/* Sidebar Menu */
-.sidebar .menu {
-    list-style-type: none;
-    padding: 0;
-}
-
-.menu li {
-    display: flex;
-    align-items: center;
-    padding: 22.5px 0; /* Increased padding */
-}
-
-/* Icons */
-.icon {
-    font-size: 36px; /* Increased size for icons */
-    margin-right: 22.5px; /* Adjusted margin */
-    color: #ffffff; /* Ensure icons are white */
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-/* Menu Text */
-.menu-text {
-    font-size: 27px; 
-    color: #ffffff; 
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-
-/* When the sidebar is collapsed, completely hide the sidebar content */
-.sidebar.collapsed .icon,
-.sidebar.collapsed .menu-text {
-    opacity: 0; 
-    visibility: hidden;
-    pointer-events: none; 
-    height: 0; 
-    display: none; 
-}
-
-/* Sidebar Links */
-.sidebar a {
-    text-decoration: none;
-    color: #ffffff; 
-    font-size: 27px;
 }
 
 /* Navbar Styles */
 .navbar {
     background-color: #214a84;
-    color: #ffffff;
-    padding: 22.5px 45px; /* Increased padding */
+    color: #fff;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
-    top: 0;
-    left: 375px; /* Adjusted to match sidebar width */
-    width: calc(100% - 375px); /* Adjusted width */
-    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.1); /* 1.5 times original shadow */
-    z-index: 1;
-    transition: width 0.3s ease, left 0.3s ease; /* Smooth transition */
-}
-
-.navbar.collapsed {
-    left: 90px; /* Adjusted for collapsed sidebar */
-    width: calc(100% - 90px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-brand {
-    font-size: 54px; /* 1.5 times original font size */
+    font-size: 24px;
     font-weight: bold;
-    transition: font-size 0.3s ease;
 }
 
 .navbar-links a {
     color: #fff;
-    margin-left: 45px; /* Increased spacing */
+    margin-left: 20px;
     text-decoration: none;
-    font-size: 36px; /* Increased font size */
+    font-size: 16px;
 }
 
-/* Main Content */
+.navbar-links a:hover {
+    text-decoration: underline;
+}
+
+/* Main Container Styles */
+.main-container {
+    display: flex;
+    flex: 1;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 220px;
+    background-color: #3a5a99;
+    color: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #2e4580;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #2e4580;
+}
+
 .main-content {
-    margin-left: 375px; /* Adjusted for expanded sidebar */
-    padding: 30px; /* Increased padding */
-    width: calc(100% - 375px); /* Adjusted width */
-    transition: margin-left 0.3s ease, width 0.3s ease;
+    margin-left: 25px;
 }
 
+/* Sidebar collapsed state */
+.sidebar.collapsed {
+    width: 80px; /* Reduced width when collapsed */
+}
+
+/* Navbar adjustments when sidebar is collapsed */
+.navbar.collapsed {
+    margin-left: 80px; /* Adjust navbar position when sidebar is collapsed */
+}
+
+/* Main content adjustments when sidebar is collapsed */
 .main-content.collapsed {
-    margin-left: 90px; /* Adjusted for collapsed sidebar */
-    width: calc(100% - 90px);
-}
-
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 90px; /* Adjust for mobile */
-    }
-    .sidebar.collapsed {
-        width: 0;
-    }
-    .navbar {
-        left: 90px; /* Adjust navbar for mobile */
-        width: calc(100% - 90px);
-    }
-    .main-content {
-        margin-left: 90px;
-        width: calc(100% - 90px);
-    }
+    margin-left: 80px; /* Adjust main content position when sidebar is collapsed */
 }
