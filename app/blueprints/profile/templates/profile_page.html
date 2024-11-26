@@ -1,23 +1,19 @@
 {% extends 'base_page.html' %}
 {% block title %} Profile {% endblock %}
-    {% block content %}
-    <div class="hero-section">
-        <h1>User Profile</h1>
+{% block content %}
+<div class="hero-section">
+    <h1>User Profile</h1>
+</div>
+<div class="profile-details">
+    <h2>Registration Information</h2>
+    <div class="info-item">
+        <strong>Company name:</strong> <span id="company_name">{{ company.company_name }}</span>
     </div>
-    <div class="profile-details">
-        <h2>Registration Information</h2>
-        <div class="info-item">
-            <strong>Username:</strong> <span id="username">JohnDoe</span>
-        </div>
-        <div class="info-item">
-            <strong>Email:</strong> <span id="email">johndoe@example.com</span>
-        </div>
-        <div class="info-item">
-            <strong>Role:</strong> <span id="role">Admin</span>
-        </div>
-        <!-- <div class="profile-actions">
-            <button id="edit-profile">Edit Profile</button>
-            <button id="delete-account" class="delete-btn">Delete Account</button>
-        </div> -->
+    <div class="info-item">
+        <strong>Email:</strong> <span id="email">{{ company.email }}</span>
     </div>
-    {% endblock %}
+    <div class="info-item">
+        <strong>Phone Number:</strong> <span id="phone_number">{{ company.phone_number }}</span>
+    </div>
+</div>
+{% endblock %}

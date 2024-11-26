@@ -1,9 +1,13 @@
 {% extends 'base_page.html' %}
+{% block title %} HOME PAGE {% endblock %}
 {% block content %}
+    <!-- Hero Section -->
     <div class="hero-section">
         <h1>Welcome to the PPE Detection System</h1>
         <p>Ensuring Safety and Compliance in Real-time</p>
     </div>
+
+    <!-- Features Section -->
     <div class="features">
         <div class="feature">
             <h2>Real-time Monitoring</h2>
@@ -17,5 +21,44 @@
             <h2>Detailed Reports</h2>
             <p>Generate comprehensive reports to analyze safety performance.</p>
         </div>
+    </div>
+
+    <!-- Detailed Description Section -->
+    <div class="detailed-description">
+        <h2>Why PPE Detection Matters</h2>
+        <p>Personal Protective Equipment (PPE) plays a crucial role in ensuring safety in workplaces, especially in high-risk environments such as construction sites, factories, and healthcare facilities. Our PPE Detection System helps organizations ensure that safety standards are met at all times. By detecting PPE usage in real-time through advanced computer vision and AI technology, we can reduce workplace accidents, improve compliance with safety regulations, and ultimately save lives.</p>
+    </div>
+
+    <!-- How It Works Section -->
+    <div class="how-it-works">
+        <h2>How It Works</h2>
+        <p>The PPE Detection System uses cutting-edge AI algorithms to detect safety gear such as helmets, gloves, and vests in real-time through CCTV camera feeds. Our system processes video frames, analyzing the presence of required safety gear, and instantly alerts the supervisors if any discrepancies are detected.</p>
+    </div>
+
+    <!-- Use Cases Section -->
+    <div class="use-cases">
+        <h2>Use Cases</h2>
+        <div class="use-case">
+            <h3>Construction Sites</h3>
+            <p>Ensure workers are wearing helmets, gloves, and reflective vests while working on site. The system can track compliance throughout the day, even in poor lighting conditions.</p>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="testimonials">
+        <h2>What Our Users Say</h2>
+        <div class="testimonial">
+            <p>"The PPE Detection System has transformed our safety protocol. We can now monitor compliance in real-time, and our accident rates have decreased significantly!" - John D., Safety Officer</p>
+        </div>
+        <div class="testimonial">
+            <p>"As a manager in a large factory, I appreciate the peace of mind knowing that our workers are always wearing the required safety gear. The alerts are timely and accurate." - Sarah W., Factory Manager</p>
+        </div>
+    </div>
+
+    <!-- Call-to-Action Section -->
+    <div class="cta">
+        <h2>Get Started Today</h2>
+        <p>Want to see how the PPE Detection System can enhance safety at your workplace? Contact us for a live demo and more information on pricing and setup.</p>
+        <a href="contact.html" class="cta-button">Request a Demo</a>
     </div>
 {% endblock %}

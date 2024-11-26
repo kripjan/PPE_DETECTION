@@ -17,6 +17,9 @@ body {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    left: 200px;
+    width: calc(100% - 200px); 
+    z-index: 10;
 }
 
 .navbar-brand {
@@ -43,12 +46,16 @@ body {
 
 /* Sidebar Styles */
 .sidebar {
-    width: 220px;
+    height: 100%;
+    width: 200px;
     background-color: #3a5a99;
     color: #fff;
     padding: 20px;
     box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
     border-right: 1px solid #2e4580;
+    transition: width 0.3s ease; /* Smooth transition for width */
+    top: 60px;
+    z-index: 1;
 }
 
 .sidebar ul {
@@ -72,8 +79,11 @@ body {
     background-color: #2e4580;
 }
 
+/* Main Content Styles */
 .main-content {
-    margin-left: 25px;
+    margin-left: 40px; /* Adjust main content when sidebar is fully expanded */
+    padding: 20px;
+    transition: margin-left 0.3s ease; /* Smooth transition for the content area */
 }
 
 /* Sidebar collapsed state */
@@ -89,4 +99,51 @@ body {
 /* Main content adjustments when sidebar is collapsed */
 .main-content.collapsed {
     margin-left: 80px; /* Adjust main content position when sidebar is collapsed */
+}
+
+/* Toggle button */
+.toggle-btn {
+    display: block; /* Ensure it's visible on all screen sizes */
+    background-color: #fff;
+    color: #214a84;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-btn:hover {
+    background-color: #f0f0f0;
+}
+
+/* Media Queries for responsiveness */
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column; /* Stack navbar items vertically on small screens */
+    }
+
+    .main-container {
+        flex-direction: column; /* Stack sidebar and content vertically on small screens */
+    }
+
+    .sidebar {
+        width: 100%; /* Full width for sidebar on small screens */
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        box-shadow: none;
+        transition: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding-top: 60px; /* Space for the navbar on small screens */
+    }
+
+    .toggle-btn {
+        display: block; /* Show the toggle button on small screens */
+    }
 }

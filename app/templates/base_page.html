@@ -13,7 +13,7 @@
         <div class="navbar-brand">PPE Detection System</div>
         <div class="navbar-links">
             <a href="{{ url_for('dashboard.home_page') }}">Home</a>
-            <a href="{{ url_for('profile.profile_page') }}">Profile</a>
+            <a href="{{ url_for('profile.profile_page', company_id=current_user.company_id) }}">Profile</a>
             <a href="{{ url_for('auth.logout') }}" id="logout">Logout</a>
         </div>
     </div>

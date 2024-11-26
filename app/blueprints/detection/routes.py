@@ -9,6 +9,9 @@ from app.blueprints.detection import detection
 from app.models.frame_model import Frame
 from app.models.object_model import Object
 from app.models.frame_object_model import FrameObject
+from PIL import Image
+import io
+
 
 # Load YOLO model
 model = YOLO("app/models/best.pt")
@@ -154,12 +157,19 @@ def store_violating_frame(frame, detected_objects, frame_bytes):
 def reports_page():
     return render_template('reports_page.html')
 
-# @detection.route('/frame_image/<int:frame_id>', methods=['GET'])
-# def get_frame_image(frame_id):
-#     """
-#     Retrieve and return the image stored in the database for the given frame ID.
-#     """
-#     frame = Frame.query.get(frame_id)
-#     if frame:
-#         return Response(frame.image_data, mimetype='image/jpeg')
-#     return 'Frame not found', 404
+@detection.route('/frame_image/<int:frame_id>', methods=['GET'])
+def get_frame_image(frame_id):
+    """
+    Retrieve and return the image stored in the database for the given frame ID.
+    """
+    frame = Frame.query.get(frame_id)
+    if frame:
+        return Response(frame.image_data, mimetype='image/jpeg')
+    return 'Frame not found', 404
+
+
+# Convert image to binary data
+# image = Image.open("path_to_image.jpg")
+# buffer = io.BytesIO()
+# image.save(buffer, format="JPEG")
+# image_data = buffer.getvalue()
