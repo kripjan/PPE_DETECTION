@@ -1,17 +1,30 @@
-// Function to toggle the sidebar visibility
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar'); // Sidebar element
-    const navbar = document.querySelector('.navbar'); // Navbar element
-    const mainContent = document.querySelector('.main-content'); // Main content element
+const sidebar = document.querySelector(".sidebar");
+const sidebarToggler = document.querySelector(".sidebar-toggler");
+const menuToggler = document.querySelector(".menu-toggler");
 
-    // Toggle the 'collapsed' class on the sidebar
-    sidebar.classList.toggle('collapsed');
-    navbar.classList.toggle('collapsed'); // Adjust navbar when sidebar collapses
-    mainContent.classList.toggle('collapsed'); // Adjust main content when sidebar collapses
+const collapsedSidebarHeight = "56px";
+
+// Toggler sidebar's collapsed state
+sidebarToggler.addEventListener("click", () => {
+    sidebar.classList.toggle("collapsed");
+});
+
+const toggleMenu = (isMenuActive)=>{
+    sidebar.style.height = isMenuActive ? `${sidebar.scrollHeight}px` : collapsedSidebarHeight;
+    menuToggler.querySelector("span").innerText = isMenuActive ? "close" : "menu";
 }
 
-// Add event listener for the toggle button
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleButton = document.querySelector('.toggle-btn');
-    toggleButton.addEventListener('click', toggleSidebar); // Call the toggle function when clicked
+//Toggle menu-active class and adjust height
+menuToggler.addEventListener("click", () => {
+    toggleMenu(sidebar.classList.toggle("menu-active"));
 });
+
+window.addEventListener("resize", () => {
+    if (window.innerWidth >= 1024) {
+        sidebar.computedStyleMap.height = fullSidebarHeight;
+    } else {
+        sidebar.classList.remove("collapsed");
+        sidebar.computedStyleMap.height = "auto";
+        toggleMenu(sidebar.classList.contains("menu-active"))
+    }
+})

@@ -1,64 +1,200 @@
 {% extends 'base_page.html' %}
 {% block title %} HOME PAGE {% endblock %}
+<body class="homepage-body"></body>
 {% block content %}
-    <!-- Hero Section -->
-    <div class="hero-section">
-        <h1>Welcome to the PPE Detection System</h1>
-        <p>Ensuring Safety and Compliance in Real-time</p>
-    </div>
 
-    <!-- Features Section -->
-    <div class="features">
-        <div class="feature">
-            <h2>Real-time Monitoring</h2>
-            <p>Track safety compliance in real-time with our live monitoring system.</p>
-        </div>
-        <div class="feature">
-            <h2>Automated Alerts</h2>
-            <p>Receive instant alerts when safety protocols are not followed.</p>
-        </div>
-        <div class="feature">
-            <h2>Detailed Reports</h2>
-            <p>Generate comprehensive reports to analyze safety performance.</p>
-        </div>
-    </div>
+<style>
+  /* Global styles */
+  .homepage-body {
+    font-family: Arial, sans-serif;
+    margin: 0;  /* Remove default margin */
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;  /* Ensure content aligns at the top */
+    align-items: stretch;  /* Let elements use the available space */
+    min-height: 100vh;  /* Ensure the page grows with content */
+    overflow: auto;  /* Allow scrolling if content overflows */
+}
 
-    <!-- Detailed Description Section -->
-    <div class="detailed-description">
-        <h2>Why PPE Detection Matters</h2>
-        <p>Personal Protective Equipment (PPE) plays a crucial role in ensuring safety in workplaces, especially in high-risk environments such as construction sites, factories, and healthcare facilities. Our PPE Detection System helps organizations ensure that safety standards are met at all times. By detecting PPE usage in real-time through advanced computer vision and AI technology, we can reduce workplace accidents, improve compliance with safety regulations, and ultimately save lives.</p>
+  /* Card container */
+  .card-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Individual card */
+  .card {
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white for contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px #1332a2;
+    padding: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Card title */
+  .card-title {
+    font-size: 24px;
+    color: #061f8e; /* Dark gray */
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Card description */
+  .card-description {
+    font-size: 20px;
+    color: #4b5563; /* Medium gray */
+    margin: 0;
+  }
+  
+  /* Header styling */
+  .nine h1 {
+    text-align: center;
+    font-size: 50px;
+    text-transform: uppercase;
+    color: #061f8e;;
+    letter-spacing: 1px;
+    font-family: "Playfair Display", serif;
+    font-weight: 400;
+    margin: 0;
+  }
+  
+  /* Span styling for the header */
+  .nine h1 span {
+    margin-top: 5px;
+    font-size: 15px;
+    color: #061f8e;
+    word-spacing: 1px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: "Raleway", sans-serif;
+    font-weight: 500;
+    display: grid;
+    grid-template-columns: 1fr max-content 1fr;
+    grid-template-rows: 27px 0;
+    grid-gap: 20px;
+    align-items: center;
+  }
+  
+  .nine h1 span:after, .nine h1 span:before {
+    content: " ";
+    display: block;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    height: 5px;
+    background-color: #f8f8f8;
+  }
+  
+  /* Centering the info box */
+  .info-box {
+    background-color: white; /* White box */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 1000px; /* Fixed width for the box */
+    padding: 20px; /* Space inside the box */
+    text-align: center; /* Center align text */
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Title styling for info box */
+  .info-box h3 {
+    font-size: 1.5rem; /* Slightly larger title font */
+    color: #061f8e; /* Blue title color */
+    margin-bottom: 10px; /* Space below the title */
+  }
+  
+  /* Paragraph styling for info box */
+  .info-box p {
+    font-size: 1rem; /* Regular paragraph size */
+    color: #333; /* Dark gray text */
+    line-height: 1.5; /* Improved readability */
+  }
+</style>
+     <!-- Card Container -->
+  <div class="card-container">
+    <!-- Card 1 -->
+    <div class="card">
+      <h1 class="card-title">Real-time Monitoring</h1>
+      <p class="card-description">
+        Track safety compliance in real-time with our live monitoring system.
+      </p>
     </div>
+    <!-- Card 2 -->
+    <div class="card">
+      <h1 class="card-title">Automated Alerts</h1>
+      <p class="card-description">
+        Receive instant alerts when safety protocols are not followed.
+      </p>
+    </div>
+    <!-- Card 3 -->
+    <div class="card">
+      <h1 class="card-title">Detailed Reports</h1>
+      <p class="card-description">
+        Generate comprehensive reports to analyze safety performance.
+      </p>
+    </div>
+  </div>
 
-    <!-- How It Works Section -->
-    <div class="how-it-works">
-        <h2>How It Works</h2>
-        <p>The PPE Detection System uses cutting-edge AI algorithms to detect safety gear such as helmets, gloves, and vests in real-time through CCTV camera feeds. Our system processes video frames, analyzing the presence of required safety gear, and instantly alerts the supervisors if any discrepancies are detected.</p>
-    </div>
+  <!-- Info Box 1 -->
+  <div class="info-box">
+    <h2>Why PPE Detection Matters?</h2>
+    <p>Personal Protective Equipment (PPE) plays a crucial role in ensuring safety in workplaces, especially in high-risk environments such as construction sites, factories, and healthcare facilities. Our PPE Detection System helps organizations ensure that safety standards are met at all times. By detecting PPE usage in real-time through advanced computer vision and AI technology, we can reduce workplace accidents, improve compliance with safety regulations, and ultimately save lives.</p>
+  </div>
 
-    <!-- Use Cases Section -->
-    <div class="use-cases">
-        <h2>Use Cases</h2>
-        <div class="use-case">
-            <h3>Construction Sites</h3>
-            <p>Ensure workers are wearing helmets, gloves, and reflective vests while working on site. The system can track compliance throughout the day, even in poor lighting conditions.</p>
-        </div>
-    </div>
+  <!-- Info Box 2 -->
+  <div class="info-box">
+    <h3>How It Works?</h3>
+    <p>The PPE Detection System uses cutting-edge AI algorithms to detect safety gear such as helmets, gloves, and vests in real-time through CCTV camera feeds. Our system processes video frames, analyzing the presence of required safety gear, and instantly alerts the supervisors if any discrepancies are detected.</p>
+  </div>
 
-    <!-- Testimonials Section -->
-    <div class="testimonials">
-        <h2>What Our Users Say</h2>
-        <div class="testimonial">
-            <p>"The PPE Detection System has transformed our safety protocol. We can now monitor compliance in real-time, and our accident rates have decreased significantly!" - John D., Safety Officer</p>
-        </div>
-        <div class="testimonial">
-            <p>"As a manager in a large factory, I appreciate the peace of mind knowing that our workers are always wearing the required safety gear. The alerts are timely and accurate." - Sarah W., Factory Manager</p>
-        </div>
-    </div>
+  <!-- Use cases Section -->
+  <div class="nine">
+    <h2>Use Cases</h2>
+  </div>
 
-    <!-- Call-to-Action Section -->
-    <div class="cta">
-        <h2>Get Started Today</h2>
-        <p>Want to see how the PPE Detection System can enhance safety at your workplace? Contact us for a live demo and more information on pricing and setup.</p>
-        <a href="contact.html" class="cta-button">Request a Demo</a>
+  <!-- Card Container for Use Cases -->
+  <div class="card-container">
+    <!-- Card 1 -->
+    <div class="card">
+      <h3 class="card-title">Construction Sites</h3>
+      <p class="card-description">
+        Ensure workers are wearing helmets, reflective vests and  mask while working on site. The system can track compliance throughout the day.
+      </p>
     </div>
+    <!-- Card 2 -->
+    <div class="card">
+      <h3 class="card-title"> Manufacturing Plants</h3>
+      <p class="card-description">
+        Automated PPE detection can monitor employees in factories to ensure they are wearing required safety equipment.
+      </p>
+    </div>
+   </div>
+  <div class="info-box">
+    <h3>What Our Users Say</h3>
+    <p>"The PPE Detection System has transformed our safety protocol. We can now monitor compliance in real-time, and our accident rates have decreased significantly!" - Safety Officer </br>
+
+      "As a manager in a large factory, I appreciate the peace of mind knowing that our workers are always wearing the required safety gear. The alerts are timely and accurate." - Factory Manager</p>
+  </div>
+  <div class="info-box">
+    <h3>Get Started Today</h3>
+    <p>Want to see how the PPE Detection System can enhance safety at your workplace? Contact us for a live demo and more information on pricing and setup.
+    </p>
+    <a href="contact.html" class="cta-button">Request a Demo</a>
+  </div>
 {% endblock %}
+</body>

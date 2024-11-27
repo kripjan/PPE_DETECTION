@@ -4,38 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}PPE Detection System{% endblock %}</title>
+     <!-- Linking Google Fonts for icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
     <link rel="stylesheet" href="{{ url_for('static', filename='base_page.css') }}">
-    
+    <!-- <link rel="stylesheet" href="{{ url_for('dashboard.static', filename='home_page.css') }}"> -->
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="navbar-brand">PPE Detection System</div>
-        <div class="navbar-links">
-            <a href="{{ url_for('dashboard.home_page') }}">Home</a>
-            <a href="{{ url_for('profile.profile_page', company_id=current_user.company_id) }}">Profile</a>
-            <a href="{{ url_for('auth.logout') }}" id="logout">Logout</a>
-        </div>
-    </div>
-
-     <!-- Main Container with Sidebar -->
-     <div class="main-container">
-        <!-- Sidebar with the toggle button -->
-        <div id="sidebar" class="sidebar">
-            <button class="toggle-btn">☰</button>
-            <ul class="menu">
-                <li><a href="{{ url_for('detection.live_feed_page') }}">Live Monitoring</a></li>
-                <li><a href="{{ url_for('detection.reports_page') }}">Reports</a></li>
-                <li><a href="settings.html">Settings</a></li>
-            </ul>
-        </div>
+    <aside class="sidebar">
+        <!-- Sidebar Header -->
+        <header class="sidebar-header">
+          <a href="{{ url_for('dashboard.home_page') }}" class="header-logo">
+            <img src="{{url_for('static',filename='images/helmet.png')}}" alt="logo">
+          </a>
+          <button class="toggler sidebar-toggler">
+            <span class="material-symbols-rounded">chevron_left</span>
+          </button>
+          <button class="toggler menu-toggler">
+            <span class="material-symbols-rounded">menu</span>
+          </button>
+        </header>
         
-        <div class="main-content">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar-nav">
+          <!-- Primary Navigation List -->
+          <ul class="nav-list primary-nav">
+            
+              <li class="nav-item">
+                <a href="{{ url_for('dashboard.home_page') }}" class="nav-link">
+                  <span class="material-symbols-rounded">home</span>
+                  <span class="nav-label">Home</span>
+                </a>
+                <span class="nav-tooltip">Home</span>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('detection.live_feed_page') }}" class="nav-link">
+                  <span class="material-symbols-rounded">dashboard</span>
+                  <span class="nav-label">Live-monitoring</span>
+                </a>
+                <span class="nav-tooltip">Live-monitoring</span>
+              </li><li class="nav-item">
+                <a href="{{ url_for('detection.reports_page') }}" class="nav-link">
+                  <span class="material-symbols-rounded">report</span>
+                  <span class="nav-label">Reports</span>
+                </a>
+                <span class="nav-tooltip">Reports</span>
+              </li><li class="nav-item">
+                <a href="settings.html" class="nav-link">
+                  <span class="material-symbols-rounded">settings</span>
+                  <span class="nav-label">Settings</span>
+                </a>
+                <span class="nav-tooltip">Settingst</span>
+              </li>
+          </ul>
+    
+          <ul class = "nav-list secondary-nav">
+            <li class="nav-item">
+                <a href="{{ url_for('profile.profile_page', company_id=current_user.company_id) }}" class="nav-link">
+                  <span class="material-symbols-rounded">account_circle</span>
+                  <span class="nav-label">Profile</span>
+                </a>
+                <span class="nav-tooltip">Profile</span>
+              </li>
+              <li class="nav-item">
+                  <a href="{{ url_for('auth.logout') }}" class="nav-link">
+                    <span class="material-symbols-rounded">logout</span>
+                    <span class="nav-label">Logout</span>
+                  </a>
+                  <span class="nav-tooltip">Logout</span>
+                </li>
+          </ul>
+        </nav>
+    </aside>
+        
+    <div class="main-content">
             {% block content %}
             <!-- Child pages will insert content here -->
             {% endblock %}
-        </div>
     </div>
+    
     <script src="{{ url_for('static', filename='base_page.js') }}" defer></script>
 </body>
 </html>
+
+
+

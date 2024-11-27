@@ -1,13 +1,80 @@
 {% extends 'base_page.html' %}
-{% block title %} Profile {% endblock %}
+{% block title %}Profile{% endblock %}
 {% block content %}
+<style>
+    /* Hero Section Styling */
+    .hero-section {
+        background-color: #20327b;
+        color: #ffffff;
+        text-align: center;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    /* Profile Details Section */
+    .profile-details {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+        max-width: 600px;
+    }
+
+    .profile-details h2 {
+        font-size: 24px;
+        color: #20327b;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    /* Individual Info Items */
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .info-item:last-child {
+        border-bottom: none;
+    }
+
+    .info-item strong {
+        color: #20327b;
+        font-size: 16px;
+    }
+
+    .info-item span {
+        font-size: 16px;
+        color: #333;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .profile-details {
+            padding: 15px;
+        }
+
+        .info-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .info-item span {
+            margin-top: 5px;
+        }
+    }
+</style>
+
 <div class="hero-section">
     <h1>User Profile</h1>
 </div>
 <div class="profile-details">
     <h2>Registration Information</h2>
     <div class="info-item">
-        <strong>Company name:</strong> <span id="company_name">{{ company.company_name }}</span>
+        <strong>Company Name:</strong> <span id="company_name">{{ company.company_name }}</span>
     </div>
     <div class="info-item">
         <strong>Email:</strong> <span id="email">{{ company.email }}</span>
