@@ -7,7 +7,7 @@
      <!-- Linking Google Fonts for icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
     <link rel="stylesheet" href="{{ url_for('static', filename='base_page.css') }}">
-    <!-- <link rel="stylesheet" href="{{ url_for('dashboard.static', filename='home_page.css') }}"> -->
+    <link rel="stylesheet" href="{{ url_for('dashboard.static', filename='home_page.css') }}">
 </head>
 <body>
     <aside class="sidebar">
@@ -44,10 +44,10 @@
                 <span class="nav-tooltip">Live-monitoring</span>
               </li><li class="nav-item">
                 <a href="{{ url_for('detection.reports_page') }}" class="nav-link">
-                  <span class="material-symbols-rounded">report</span>
-                  <span class="nav-label">Reports</span>
+                  <span class="material-symbols-rounded">history</span>
+                  <span class="nav-label">History</span>
                 </a>
-                <span class="nav-tooltip">Reports</span>
+                <span class="nav-tooltip">History</span>
               </li><li class="nav-item">
                 <a href="settings.html" class="nav-link">
                   <span class="material-symbols-rounded">settings</span>

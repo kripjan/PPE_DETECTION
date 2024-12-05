@@ -1,8 +1,8 @@
-"""initial schema migration
+"""Initial migration to postgresql database
 
-Revision ID: 3aae59ffe442
+Revision ID: 550d59180b1c
 Revises: 
-Create Date: 2024-11-24 14:19:33.981576
+Create Date: 2024-12-04 14:37:51.864419
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3aae59ffe442'
+revision = '550d59180b1c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -45,6 +45,7 @@ def upgrade():
     sa.Column('frame_id', sa.Integer(), nullable=False),
     sa.Column('datetime', sa.TIMESTAMP(), nullable=False),
     sa.Column('camera_id', sa.Integer(), nullable=False),
+    sa.Column('image_data', sa.LargeBinary(), nullable=False),
     sa.ForeignKeyConstraint(['camera_id'], ['cameras.camera_id'], ),
     sa.PrimaryKeyConstraint('frame_id')
     )

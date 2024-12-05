@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres_db
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://ppe_empty:ppe_empty@localhost:5432/ppe  # Flask environment variable
+
+  postgres_db:
+    image: postgres:17.2  # Use the latest stable version
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ppe
+      POSTGRES_PASSWORD: ppe
+      POSTGRES_DB: ppe
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistent volume for data
+
+volumes:
+  postgres_data:  # Named volume to persist PostgreSQL data
