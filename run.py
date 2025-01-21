@@ -1,7 +1,10 @@
-# login_bp_folder/run.py
 from app import create_app
+from flask_socketio import (
+    SocketIO,
+)  # Flask-SocketIO enables real-time communication between the server and the client.
 
 appln = create_app()
+socketio = SocketIO(appln)
 
 if __name__ == "__main__":
-    appln.run(debug=True)
+    socketio.run(appln, debug=True)

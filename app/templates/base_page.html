@@ -59,7 +59,7 @@
     
           <ul class = "nav-list secondary-nav">
             <li class="nav-item">
-                <a href="{{ url_for('profile.profile_page', company_id=current_user.company_id) }}" class="nav-link">
+                <a href="{{ url_for('profile.profile_page', company_id=current_user.id) }}" class="nav-link">
                   <span class="material-symbols-rounded">account_circle</span>
                   <span class="nav-label">Profile</span>
                 </a>

@@ -13,8 +13,8 @@
         <form method="POST" action="{{ url_for('auth.login') }}">
             {{ form.hidden_tag() }}  <!-- CSRF protection -->
             <div class="input-group">
-                <label for="company_email">Company Email</label>
-                {{ form.company_email(class="form-control", id="company_email") }} <!-- Flask-WTF form field -->
+                <label for="email">Company Email</label>
+                {{ form.email(class="form-control", id="email") }} <!-- Flask-WTF form field -->
             </div>
             <div class="input-group">
                 <label for="pword">Password</label>

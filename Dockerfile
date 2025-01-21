@@ -12,11 +12,11 @@ RUN apt-get update && apt-get install -y libpq-dev \
 
 # Install Python dependencies
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
 
 # Expose Flask port
 EXPOSE 5000
 
 # Command to run the application
 CMD ["python", "run.py"]
-

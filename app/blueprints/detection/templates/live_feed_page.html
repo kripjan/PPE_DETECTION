@@ -1,27 +1,38 @@
 {% extends 'base_page.html' %}
 {% block title %}Live Feed{% endblock %}
-    {% block content %}
-    <div class="section" id="live-monitoring">
+
+{% block content %}
+    <div id="live-monitoring" class="section">
         <h1>Live Monitoring</h1>
         <div class="live-monitoring-content">
             <div class="camera-feed">
                 <h3>Webcam Feed</h3>
                 <div class="feed">
-                    <!-- Camera feed goes here -->
                     <img src="{{ url_for('detection.stream_livefeed') }}" alt="Camera Feed">
                 </div>
             </div>
-            <!-- Uncomment if you want the control panel to display
-            <div class="control-panel">
-                <h3>Control Panel</h3>
-                <div class="controls">
-                    <button>Start</button>
-                    <button>Stop</button>
-                    <button>Settings</button>
-                </div>
-            </div>
-            -->
         </div>
     </div>
-    {% endblock %}
 
+    <!-- Notification Area -->
+    <div id="notification-area" class="notifications">
+        <h3>Notifications</h3>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
+
+    <script>
+        const socket = io("/notifications");
+
+        socket.on("new_notification", function(data) {
+            alert(data.message);
+            const notificationArea = document.getElementById("notification-area");
+            const notificationElement = document.createElement("div");
+            notificationElement.className = "notification";
+            notificationElement.innerText = data.message;
+            notificationArea.appendChild(notificationElement);
+        });
+    </script>
+{% endblock %}

@@ -1,4 +1,7 @@
 from flask import Flask
+from flask_socketio import (
+    SocketIO,
+)  # Flask-SocketIO enables real-time communication between the server and the client.
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
@@ -6,6 +9,7 @@ from app.config import DevConfig, EmptyDbConfig
 
 db = SQLAlchemy()
 migrate = Migrate()
+
 
 def create_app():
     app = Flask(__name__)
@@ -16,11 +20,10 @@ def create_app():
 
     with app.app_context():
         # importing model classes for migrating
-        from app.models.company_model import Company
-        from app.models.camera_model import Camera
-        from app.models.frame_model import Frame
-        from app.models.object_model import Object
-        from app.models.frame_object_model import FrameObject
+        from app.models.company import Company
+        from app.models.object import Object
+        from app.models.detection import Detection
+        from app.models.detection_object import DetectionObject
 
         try:
             db.init_app(app)
@@ -29,13 +32,14 @@ def create_app():
             print(f"Database connection error: {e}")
 
         migrate.init_app(app, db)
-        
+
         from flask_login import LoginManager
+
         login_manager = LoginManager()
         login_manager.init_app(app)
-        login_manager.login_view = 'auth.login' 
+        login_manager.login_view = "auth.login"
 
-        # user (ie, company) loader function 
+        # user (ie, company) loader function
         @login_manager.user_loader
         def load_user(company_id):
             return Company.query.get(int(company_id))
@@ -50,13 +54,14 @@ def create_app():
         from app.blueprints.auth import routes
         from app.blueprints.dashboard import routes
         from app.blueprints.detection import routes
-        from app.blueprints.profile  import routes
-
+        from app.blueprints.profile import routes
 
         # Register blueprints
-        app.register_blueprint(auth, url_prefix='/auth') # auth blueprint
-        app.register_blueprint(dashboard, url_prefix='/dashboard') # dashboard blueprint
-        app.register_blueprint(detection, url_prefix='/detection') # detection blueprint
-        app.register_blueprint(profile) # profile blueprint
-        
+        app.register_blueprint(auth, url_prefix="/auth")  # auth blueprint
+        app.register_blueprint(dashboard, url_prefix="/dashboard")  # dashboardblueprint
+        app.register_blueprint(
+            detection, url_prefix="/detection"
+        )  # detection blueprint
+        app.register_blueprint(profile)  # profile blueprint
+
     return app

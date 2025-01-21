@@ -13,10 +13,10 @@
             {{ form.hidden_tag() }}  <!-- CSRF protection -->
 
             <div class="input-group">
-                {{ form.company_name.label }}
-                {{ form.company_name(class="form-control") }}
-                {% if form.company_name.errors %}
-                    <span class="error">{{ form.company_name.errors[0] }}</span>
+                {{ form.name.label }}
+                {{ form.name(class="form-control") }}
+                {% if form.name.errors %}
+                    <span class="error">{{ form.name.errors[0] }}</span>
                 {% endif %}
             </div>
 
