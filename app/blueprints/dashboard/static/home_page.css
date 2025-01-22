@@ -101,11 +101,12 @@
     width: 1000px; /* Fixed width for the box */
     padding: 20px; /* Space inside the box */
     text-align: center; /* Center align text */
-    justify-content: center;
     margin-bottom: 20px;
     margin-top: 20px;
   }
-  
+  .one .info-box h2 {
+  color: #1e90ff; /* Blue color */
+}
   /* Title styling for info box */
   .info-box h3 {
     font-size: 1.5rem; /* Slightly larger title font */
@@ -118,4 +119,10 @@
     font-size: 1rem; /* Regular paragraph size */
     color: #333; /* Dark gray text */
     line-height: 1.5; /* Improved readability */
+  }
+
+ .one, .two{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
   }

@@ -11,7 +11,7 @@ from flask import Blueprint
 @login_required
 def profile_page(company_id):
     # Fetch the currently logged-in company details
-    company = Company.query.get(current_user.company_id)
+    company = Company.query.get(current_user.id)
 
     if not company:
         return redirect(url_for("login_page.html"))  # Redirect if user is not found

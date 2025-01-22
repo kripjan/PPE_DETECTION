@@ -84,6 +84,32 @@ def generate_livefeed(company_id):
             # Save frames with violations to the database
             save_violating_detection(frame, results, company_id)
 
+            # Draw bounding boxes on the frame
+            for result in results:
+                for box in result.boxes:
+                    x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
+                    cls_idx = int(box.cls[0])
+                    label = result.names.get(cls_idx, "Unknown")
+                    confidence = box.conf[0]
+
+                    # Draw rectangle and label
+                    if label == "Person":
+                        color = (255, 0, 0)  # Blue for "Person"
+                    elif "NO" in label:
+                        color = (0, 0, 255)  # Red for violations (e.g., NO-Hardhat)
+                    else:
+                         color = (0, 255, 0)  # Green for other objects
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+                    cv2.putText(
+                        frame,
+                        f"{label} {confidence:.2f}",
+                        (x1, y1 - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        0.5,
+                        color,
+                        2,
+                    )
+
             # Convert processed frame to JPEG for streaming
             _, buffer = cv2.imencode(".jpg", frame)
             frame_bytes = buffer.tobytes()

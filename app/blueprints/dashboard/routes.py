@@ -6,5 +6,6 @@ from app.blueprints.dashboard import dashboard
 
 @login_required
 @dashboard.route('/home', methods=['GET'])
+
 def home_page():
     return render_template('home_page.html')
