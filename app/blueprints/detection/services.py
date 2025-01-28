@@ -7,10 +7,10 @@ from app.models.detection_object import DetectionObject
 from app.models.detection import Detection
 from ultralytics import YOLO
 
-# YOLO model for detection
-model = YOLO("app/models/best.pt")
+# Load YOLO model
+model = YOLO("app/models/first.pt")
 
-# Global variable to track the last saved frame time
+# Global variable to track the last saved detection time
 last_saved_time = None
 
 
@@ -19,7 +19,7 @@ def save_violating_detection(frame, results, company_id):
     global last_saved_time
     current_time = datetime.datetime.now()
 
-    # Check if 5 minutes have passed since the last saved detection
+    # Ensure 5 minutes have passed since the last detection save
     if (
         last_saved_time is None
         or (current_time - last_saved_time).total_seconds() >= 300
@@ -28,18 +28,13 @@ def save_violating_detection(frame, results, company_id):
         detected_objects = set()
 
         for result in results:
-
-            # Extract all detections
-            persons = []
-            helmets = []
-            vests = []
-
+            # Group detections by class
+            persons, helmets, vests = [], [], []
             for box in result.boxes:
                 x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
                 cls_idx = int(box.cls[0])
                 label = result.names.get(cls_idx, "Unknown")
 
-                # Group detections by class
                 if label == "Person":
                     persons.append((x1, y1, x2, y2))
                 elif label == "Helmet":
@@ -47,30 +42,26 @@ def save_violating_detection(frame, results, company_id):
                 elif label == "Vest":
                     vests.append((x1, y1, x2, y2))
 
-            # Check for violations
+            # Check for violations for each person
             for person in persons:
                 px1, py1, px2, py2 = person
-                person_has_helmet = False
-                person_has_vest = False
+                has_helmet, has_vest = False, False
 
-                # Check if any helmet is inside the person bounding box
-                for helmet in helmets:
-                    hx1, hy1, hx2, hy2 = helmet
+                # Check if helmets or vests overlap with the person bounding box
+                for hx1, hy1, hx2, hy2 in helmets:
                     if hx1 >= px1 and hy1 >= py1 and hx2 <= px2 and hy2 <= py2:
-                        person_has_helmet = True
+                        has_helmet = True
                         break
 
-                # Check if any vest is inside the person bounding box
-                for vest in vests:
-                    vx1, vy1, vx2, vy2 = vest
+                for vx1, vy1, vx2, vy2 in vests:
                     if vx1 >= px1 and vy1 >= py1 and vx2 <= px2 and vy2 <= py2:
-                        person_has_vest = True
+                        has_vest = True
                         break
 
-                # If the person does not have both helmet and vest, mark as violation
-                if not (person_has_helmet and person_has_vest):
+                # Record violation if the person lacks both helmet and vest
+                if not (has_helmet and has_vest):
                     violations_detected = True
-                    detected_objects.add(label)
+                    detected_objects.update(["Person", "Helmet", "Vest"])
 
         if violations_detected:
             try:
@@ -83,9 +74,9 @@ def save_violating_detection(frame, results, company_id):
                     datetime=current_time, image_data=frame_bytes, company_id=company_id
                 )
                 db.session.add(new_detection)
-                db.session.flush()  # Get the detection ID
+                db.session.flush()  # Obtain the detection ID
 
-                # Save associated objects
+                # Save related detected objects
                 for obj_name in detected_objects:
                     obj = Object.query.filter_by(name=obj_name).first()
                     if obj:
@@ -120,61 +111,46 @@ def generate_livefeed(company_id):
 
             # Draw bounding boxes on the frame
             for result in results:
-                person_detected = []
-                equipment_detected = []
-                head_detected = []  # Assuming head is a class in your dataset
+                safety_items = {
+                    "Hardhat": [],
+                    "Safety Vest": [],
+                    "NO-Hardhat": [],
+                    "NO-Safety Vest": [],
+                    "Person": [],
+                }
 
-                # Separate detections into person and equipment
+                # Categorize detections
                 for box in result.boxes:
                     x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
                     cls_idx = int(box.cls[0])
                     label = result.names.get(cls_idx, "Unknown")
-                    confidence = box.conf[0]
 
-                    if label == "head":
-                        head_detected.append((x1, y1, x2, y2))
-                    elif label in ["helmet", "vest"]:
-                        equipment_detected.append((x1, y1, x2, y2, label))
+                    if label in safety_items:
+                        safety_items[label].append((x1, y1, x2, y2))
 
-                # Draw bounding boxes for equipment
-                for x1, y1, x2, y2, label in equipment_detected:
-                    color = (0, 255, 0)  # Green for helmet and vest
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-                    cv2.putText(
-                        frame,
-                        label,
-                        (x1, y1 - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.5,
-                        color,
-                        2,
-                    )
+                # Draw bounding boxes
+                for label, items in safety_items.items():
+                    for x1, y1, x2, y2 in items:
+                        if label in ["Hardhat", "Safety Vest"]:
+                            color = (0, 255, 0)  # Green
+                        elif label in ["NO-Hardhat", "NO-Safety Vest"]:
+                            color = (0, 0, 255)  # Red
+                        elif label in ["Person"]:
+                            color = (255, 0, 0)
+                        else:
+                            continue  # Skip bounding box for other labels
 
-                # Draw bounding boxes for persons (head without equipment)
-                for px1, py1, px2, py2 in head_detected:
-                    # Check if any equipment overlaps the head bounding box
-                    has_equipment = False
-                    for ex1, ey1, ex2, ey2, _ in equipment_detected:
-                        # Simple overlap check
-                        if ex1 < px2 and ex2 > px1 and ey1 < py2 and ey2 > py1:
-                            has_equipment = True
-                            break
-
-                    if has_equipment:
-                        color = (255, 0, 0)  # Blue for person with equipment
-                    else:
-                        color = (0, 0, 255)  # Red for person without equipment
-
-                    cv2.rectangle(frame, (px1, py1), (px2, py2), color, 2)
-                    cv2.putText(
-                        frame,
-                        "Person",
-                        (px1, py1 - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.5,
-                        color,
-                        2,
-                    )
+                        # Draw the bounding box and label
+                        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+                        cv2.putText(
+                            frame,
+                            label,
+                            (x1, y1 - 10),
+                            cv2.FONT_HERSHEY_SIMPLEX,
+                            0.5,
+                            color,
+                            2,
+                        )
 
             # Convert processed frame to JPEG for streaming
             _, buffer = cv2.imencode(".jpg", frame)
