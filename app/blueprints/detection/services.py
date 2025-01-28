@@ -28,13 +28,47 @@ def save_violating_detection(frame, results, company_id):
         detected_objects = set()
 
         for result in results:
+
+            # Extract all detections
+            persons = []
+            helmets = []
+            vests = []
+
             for box in result.boxes:
                 x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
                 cls_idx = int(box.cls[0])
                 label = result.names.get(cls_idx, "Unknown")
 
-                if label in {"NO-Hardhat", "NO-Safety Vest", "NO-Mask"}:
-                    # Mark the presence of a safety violation
+                # Group detections by class
+                if label == "Person":
+                    persons.append((x1, y1, x2, y2))
+                elif label == "Helmet":
+                    helmets.append((x1, y1, x2, y2))
+                elif label == "Vest":
+                    vests.append((x1, y1, x2, y2))
+
+            # Check for violations
+            for person in persons:
+                px1, py1, px2, py2 = person
+                person_has_helmet = False
+                person_has_vest = False
+
+                # Check if any helmet is inside the person bounding box
+                for helmet in helmets:
+                    hx1, hy1, hx2, hy2 = helmet
+                    if hx1 >= px1 and hy1 >= py1 and hx2 <= px2 and hy2 <= py2:
+                        person_has_helmet = True
+                        break
+
+                # Check if any vest is inside the person bounding box
+                for vest in vests:
+                    vx1, vy1, vx2, vy2 = vest
+                    if vx1 >= px1 and vy1 >= py1 and vx2 <= px2 and vy2 <= py2:
+                        person_has_vest = True
+                        break
+
+                # If the person does not have both helmet and vest, mark as violation
+                if not (person_has_helmet and person_has_vest):
                     violations_detected = True
                     detected_objects.add(label)
 
@@ -86,24 +120,56 @@ def generate_livefeed(company_id):
 
             # Draw bounding boxes on the frame
             for result in results:
+                person_detected = []
+                equipment_detected = []
+                head_detected = []  # Assuming head is a class in your dataset
+
+                # Separate detections into person and equipment
                 for box in result.boxes:
                     x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
                     cls_idx = int(box.cls[0])
                     label = result.names.get(cls_idx, "Unknown")
                     confidence = box.conf[0]
 
-                    # Draw rectangle and label
-                    if label == "Person":
-                        color = (255, 0, 0)  # Blue for "Person"
-                    elif "NO" in label:
-                        color = (0, 0, 255)  # Red for violations (e.g., NO-Hardhat)
-                    else:
-                         color = (0, 255, 0)  # Green for other objects
+                    if label == "head":
+                        head_detected.append((x1, y1, x2, y2))
+                    elif label in ["helmet", "vest"]:
+                        equipment_detected.append((x1, y1, x2, y2, label))
+
+                # Draw bounding boxes for equipment
+                for x1, y1, x2, y2, label in equipment_detected:
+                    color = (0, 255, 0)  # Green for helmet and vest
                     cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
                     cv2.putText(
                         frame,
-                        f"{label} {confidence:.2f}",
+                        label,
                         (x1, y1 - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        0.5,
+                        color,
+                        2,
+                    )
+
+                # Draw bounding boxes for persons (head without equipment)
+                for px1, py1, px2, py2 in head_detected:
+                    # Check if any equipment overlaps the head bounding box
+                    has_equipment = False
+                    for ex1, ey1, ex2, ey2, _ in equipment_detected:
+                        # Simple overlap check
+                        if ex1 < px2 and ex2 > px1 and ey1 < py2 and ey2 > py1:
+                            has_equipment = True
+                            break
+
+                    if has_equipment:
+                        color = (255, 0, 0)  # Blue for person with equipment
+                    else:
+                        color = (0, 0, 255)  # Red for person without equipment
+
+                    cv2.rectangle(frame, (px1, py1), (px2, py2), color, 2)
+                    cv2.putText(
+                        frame,
+                        "Person",
+                        (px1, py1 - 10),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         0.5,
                         color,
@@ -114,5 +180,6 @@ def generate_livefeed(company_id):
             _, buffer = cv2.imencode(".jpg", frame)
             frame_bytes = buffer.tobytes()
             yield b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame_bytes + b"\r\n"
+
     finally:
         cam.release()
