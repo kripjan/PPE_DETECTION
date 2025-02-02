@@ -14,9 +14,10 @@
         </div>
     </div>
 
-    <!-- Notification Area -->
-    <div id="notification-area" class="notifications">
-        <h3>Notifications</h3>
+    <!-- Information Area -->
+    <div id="information-area" class="information">
+        <h3>Information</h3>
+        <ul id="detected-classes"></ul>
     </div>
 {% endblock %}
 
@@ -24,15 +25,18 @@
     <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
 
     <script>
-        const socket = io("/notifications");
+        const socket = io();
 
-        socket.on("new_notification", function(data) {
-            alert(data.message);
-            const notificationArea = document.getElementById("notification-area");
-            const notificationElement = document.createElement("div");
-            notificationElement.className = "notification";
-            notificationElement.innerText = data.message;
-            notificationArea.appendChild(notificationElement);
+        // Listen for detection updates from the backend
+        socket.on("detection_update", function(data) {
+            const detectedClasses = document.getElementById("detected-classes");
+            detectedClasses.innerHTML = ""; // Clear previous detections
+
+            data.detected_classes.forEach(class_name => {
+                const listItem = document.createElement("li");
+                listItem.innerText = class_name;
+                detectedClasses.appendChild(listItem);
+            });
         });
     </script>
 {% endblock %}

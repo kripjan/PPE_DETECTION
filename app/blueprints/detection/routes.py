@@ -2,7 +2,10 @@ from flask import Response, render_template, stream_with_context
 from flask_login import login_required, current_user
 from app.blueprints.detection import detection
 from app.blueprints.detection.services import *
-from flask_socketio import emit
+from flask_socketio import SocketIO, emit
+
+# Initialize Flask-SocketIO
+socketio = SocketIO()
 
 
 @detection.route("/livefeed", methods=["GET"])
@@ -27,10 +30,9 @@ def stream_livefeed():
     )
 
 
-def notify_detection(detection_details):
-    """Emit notifications for PPE detections."""
-    message = f"PPE Violation Detected: {detection_details}"
-    emit("new_notification", {"message": message}, broadcast=True)
+def send_detection_update(detected_classes):
+    """Emit detection information to connected clients in real-time."""
+    socketio.emit("detection_update", {"detected_classes": detected_classes})
 
 
 @detection.route("/reports")

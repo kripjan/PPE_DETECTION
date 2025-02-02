@@ -6,9 +6,13 @@ from app.models.object import Object
 from app.models.detection_object import DetectionObject
 from app.models.detection import Detection
 from ultralytics import YOLO
+from flask_socketio import emit
+from app.blueprints.detection.routes import send_detection_update
 
 # Load YOLO model
 model = YOLO("app/models/first.pt")
+
+detected_classes = set()
 
 # Global variable to track the last saved detection time
 last_saved_time = None
@@ -151,7 +155,9 @@ def generate_livefeed(company_id):
                             color,
                             2,
                         )
-
+            # Send detected classes to the frontend
+            if detected_classes:
+                send_detection_update(list(detected_classes))
             # Convert processed frame to JPEG for streaming
             _, buffer = cv2.imencode(".jpg", frame)
             frame_bytes = buffer.tobytes()
