@@ -7,12 +7,10 @@ from app.models.detection_object import DetectionObject
 from app.models.detection import Detection
 from ultralytics import YOLO
 from flask_socketio import emit
-from app.blueprints.detection.routes import send_detection_update
 
 # Load YOLO model
 model = YOLO("app/models/first.pt")
 
-detected_classes = set()
 
 # Global variable to track the last saved detection time
 last_saved_time = None
@@ -120,6 +118,8 @@ def generate_livefeed(company_id):
                     "Safety Vest": [],
                     "NO-Hardhat": [],
                     "NO-Safety Vest": [],
+                    "Mask": [],
+                    "NO-Mask": [],
                     "Person": [],
                 }
 
@@ -135,9 +135,9 @@ def generate_livefeed(company_id):
                 # Draw bounding boxes
                 for label, items in safety_items.items():
                     for x1, y1, x2, y2 in items:
-                        if label in ["Hardhat", "Safety Vest"]:
+                        if label in ["Hardhat", "Safety Vest", "Mask"]:
                             color = (0, 255, 0)  # Green
-                        elif label in ["NO-Hardhat", "NO-Safety Vest"]:
+                        elif label in ["NO-Hardhat", "NO-Safety Vest", "NO-Mask"]:
                             color = (0, 0, 255)  # Red
                         elif label in ["Person"]:
                             color = (255, 0, 0)
@@ -155,9 +155,10 @@ def generate_livefeed(company_id):
                             color,
                             2,
                         )
-            # Send detected classes to the frontend
-            if detected_classes:
-                send_detection_update(list(detected_classes))
+            # # Send detected classes to the frontend
+            # if detected_classes:
+            #     send_detection_update(list(detected_classes))
+
             # Convert processed frame to JPEG for streaming
             _, buffer = cv2.imencode(".jpg", frame)
             frame_bytes = buffer.tobytes()

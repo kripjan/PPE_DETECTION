@@ -9,6 +9,7 @@ from app.config import DevConfig, EmptyDbConfig
 
 db = SQLAlchemy()
 migrate = Migrate()
+socketio = SocketIO()
 
 
 def create_app():
@@ -17,6 +18,14 @@ def create_app():
 
     # Initialize CSRF protection
     csrf = CSRFProtect(app)
+    try:
+        db.init_app(app)
+
+    except Exception as e:
+        print(f"Database connection error: {e}")
+
+    migrate.init_app(app, db)
+    socketio.init_app(app)
 
     with app.app_context():
         # importing model classes for migrating
@@ -24,14 +33,6 @@ def create_app():
         from app.models.object import Object
         from app.models.detection import Detection
         from app.models.detection_object import DetectionObject
-
-        try:
-            db.init_app(app)
-
-        except Exception as e:
-            print(f"Database connection error: {e}")
-
-        migrate.init_app(app, db)
 
         from flask_login import LoginManager
 

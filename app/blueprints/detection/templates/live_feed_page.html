@@ -17,7 +17,7 @@
     <!-- Information Area -->
     <div id="information-area" class="information">
         <h3>Information</h3>
-        <ul id="detected-classes"></ul>
+        <ul id="detected_classes"></ul>
     </div>
 {% endblock %}
 
@@ -29,7 +29,7 @@
 
         // Listen for detection updates from the backend
         socket.on("detection_update", function(data) {
-            const detectedClasses = document.getElementById("detected-classes");
+            const detectedClasses = document.getElementById("detected_classes");
             detectedClasses.innerHTML = ""; // Clear previous detections
 
             data.detected_classes.forEach(class_name => {
