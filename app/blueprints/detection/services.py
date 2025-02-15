@@ -7,6 +7,10 @@ from app.models.detection_object import DetectionObject
 from app.models.detection import Detection
 from ultralytics import YOLO
 from flask_socketio import emit
+from flask import request
+from flask_mail import Message
+from flask_login import current_user
+from app import mail
 
 # Load YOLO model
 model = YOLO("app/models/first.pt")
@@ -14,6 +18,16 @@ model = YOLO("app/models/first.pt")
 
 # Global variable to track the last saved detection time
 last_saved_time = None
+
+
+def send_ppe_violation_email(violation_details):
+    if current_user.is_authenticated:  # Ensure user is logged in
+        to_email = current_user.email  # Get the logged-in user's email
+        subject = "PPE Violation Alert!"
+        body = f"Hello {current_user.username},\n\nA PPE violation was detected:\n\n{violation_details}"
+
+        msg = Message(subject, recipients=[to_email], body=body)
+        mail.send(msg)
 
 
 def save_violating_detection(frame, results, company_id):

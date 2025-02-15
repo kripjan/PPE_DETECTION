@@ -4,6 +4,7 @@ from app import socketio
 from app.blueprints.detection import detection
 from app.blueprints.detection.services import *
 
+
 detected_classes = set()
 
 

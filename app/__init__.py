@@ -6,10 +6,12 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from app.config import DevConfig, EmptyDbConfig
+from flask_mail import Mail
 
 db = SQLAlchemy()
 migrate = Migrate()
 socketio = SocketIO()
+mail = Mail()
 
 
 def create_app():
@@ -26,7 +28,7 @@ def create_app():
 
     migrate.init_app(app, db)
     socketio.init_app(app)
-
+    mail.init_app(app)
     with app.app_context():
         # importing model classes for migrating
         from app.models.company import Company
