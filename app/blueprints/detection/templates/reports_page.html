@@ -1,40 +1,27 @@
 {% extends 'base_page.html' %}
 {% block title %} Reports {% endblock %}
     {% block content %}
-    <div class="hero-section">
-        <h1>Detection Report</h1>
-    </div>
-    
-    <!-- Report Content Wrapper -->
-    <div class="report-content">
-        <!-- Event List Section -->
-        <div class="event-list">
-            <h2>Event List</h2>
-            <ul id="event-list">
-                <li>Event #1: 3 detected items at 10:00 AM</li>
-                <li>Event #2: 2 detected items at 10:30 AM</li>
-                <!-- Additional events here -->
-            </ul>
-        </div>
-
-        <!-- Event Details Section -->
-        <div class="event-details">
-            <h2>Event Details</h2>
-            <div class="info-item">
-                <strong>CCTV IP Address:</strong> <span id="cctv-ip">192.168.1.101</span>
-            </div>
-            <div class="info-item">
-                <strong>CCTV ID:</strong> <span id="cctv-id">CCTV-001</span>
-            </div>
-            <div class="info-item">
-                <strong>Location:</strong> <span id="location">Entrance Gate</span>
-            </div>
-            <div class="info-item">
-                <strong>Detection Time:</strong> <span id="time">10:00 AM</span>
-            </div>
-            <div class="info-item">
-                <strong>Detected Items:</strong> <span id="detections">No Hard Hat, No Safety Vest</span>
-            </div>
-        </div>
-    </div>
+    <h2>Detection Report</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>DateTime</th>
+            <th>Image</th>
+            <th>Company ID</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.id }}</td>
+            <td>{{ record.datetime }}</td>
+            <td>
+                {% if record.image_data %}
+                <img src="data:image/png;base64,{{ record.image_data }}" width="100"/>
+                {% else %}
+                No Image
+                {% endif %}
+            </td>
+            <td>{{ record.company_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>
     {% endblock %}

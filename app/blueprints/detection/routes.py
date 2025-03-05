@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from app import socketio
 from app.blueprints.detection import detection
 from app.blueprints.detection.services import *
-
+import base64
 
 detected_classes = set()
 
@@ -40,5 +40,29 @@ def handle_connect():
 @detection.route("/reports")
 @login_required
 def reports_page():
-    """Render the reports page."""
-    return render_template("reports_page.html")
+    records = Detection.query.all()
+
+    processed_records = []
+    for record in records:
+        try:
+            image_base64 = None
+            if record.image_data:  # Ensure image_data is not None
+                if isinstance(record.image_data, memoryview):
+                    record.image_data = (
+                        record.image_data.tobytes()
+                    )  # Convert memoryview to bytes
+
+                image_base64 = base64.b64encode(record.image_data).decode("utf-8")
+
+            processed_records.append(
+                {
+                    "id": record.id,
+                    "datetime": record.datetime,
+                    "image_data": image_base64,
+                    "company_id": record.company_id,
+                }
+            )
+        except Exception as e:
+            print(f"Error processing record {record.id}: {e}")
+
+    return render_template("reports_page.html", records=processed_records)
