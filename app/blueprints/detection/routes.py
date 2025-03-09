@@ -4,6 +4,8 @@ from app import socketio
 from app.blueprints.detection import detection
 from app.blueprints.detection.services import *
 import base64
+from sqlalchemy.sql import func
+
 
 detected_classes = set()
 
@@ -40,7 +42,18 @@ def handle_connect():
 @detection.route("/reports")
 @login_required
 def reports_page():
-    records = Detection.query.all()
+    records = (
+        db.session.query(
+            Detection.id,
+            Detection.datetime,
+            Detection.image_data,
+            func.string_agg(Object.name, ", ").label("object_names"),
+        )
+        .join(DetectionObject, Detection.id == DetectionObject.detection_id)
+        .join(Object, DetectionObject.object_id == Object.id)
+        .group_by(Detection.id, Detection.datetime, Detection.image_data)
+        .all()
+    )
 
     processed_records = []
     for record in records:
@@ -59,7 +72,7 @@ def reports_page():
                     "id": record.id,
                     "datetime": record.datetime,
                     "image_data": image_base64,
-                    "company_id": record.company_id,
+                    "object_names": record.object_names,  # Object name from the `object` table
                 }
             )
         except Exception as e:

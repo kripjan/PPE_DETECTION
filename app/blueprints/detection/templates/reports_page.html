@@ -1,27 +1,41 @@
 {% extends 'base_page.html' %}
+
 {% block title %} Reports {% endblock %}
-    {% block content %}
-    <h2>Detection Report</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>DateTime</th>
-            <th>Image</th>
-            <th>Company ID</th>
-        </tr>
-        {% for record in records %}
-        <tr>
-            <td>{{ record.id }}</td>
-            <td>{{ record.datetime }}</td>
-            <td>
-                {% if record.image_data %}
-                <img src="data:image/png;base64,{{ record.image_data }}" width="100"/>
-                {% else %}
-                No Image
-                {% endif %}
-            </td>
-            <td>{{ record.company_id }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg">
+    <h2 class="text-center text-2xl font-semibold text-gray-800 mb-6">Detection History</h2>
+
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-300 shadow-sm rounded-lg">
+            <thead>
+                <tr class="bg-blue-900 text-white">
+                    <th class="py-3 px-4 text-left">Detection ID</th>
+                    <th class="py-3 px-4 text-left">Datetime</th>
+                    <th class="py-3 px-4 text-left">Detected Objects</th>  <!-- Changed column name -->
+                    <th class="py-3 px-4 text-center">Image</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for record in records %}
+                <tr class="hover:bg-gray-100">
+                    <td class="py-3 px-4">{{ record.id }}</td>
+                    <td class="py-3 px-4">{{ record.datetime }}</td>
+                    <td class="py-3 px-4">{{ record.object_names }}</td>  <!-- Updated to use joined object names -->
+                    <td class="py-3 px-4 text-center">
+                        {% if record.image_data %}
+                        <img src="data:image/jpeg;base64,{{ record.image_data }}" 
+                             alt="Detection Image" 
+                             class="rounded-lg shadow-md w-24 mx-auto">
+                        {% else %}
+                        <span class="text-gray-500">No Image</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
