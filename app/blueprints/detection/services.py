@@ -96,18 +96,15 @@ def generate_livefeed(company_id):
             # Perform inference
             results = model(frame)
 
-            # Save frames with violations to the database
-            save_violating_detection(frame, results, company_id)
-
             # Draw bounding boxes on the frame
+            person_count = 0  # Counter for persons in frame
+
             for result in results:
                 safety_items = {
                     "Hardhat": [],
                     "Safety Vest": [],
                     "NO-Hardhat": [],
                     "NO-Safety Vest": [],
-                    # "Mask": [],
-                    # "NO-Mask": [],
                     "Person": [],
                 }
 
@@ -120,6 +117,9 @@ def generate_livefeed(company_id):
                     if label in safety_items:
                         safety_items[label].append((x1, y1, x2, y2))
 
+                # Count number of persons in the frame
+                person_count = len(safety_items["Person"])
+
                 # Draw bounding boxes
                 for label, items in safety_items.items():
                     for x1, y1, x2, y2 in items:
@@ -127,8 +127,8 @@ def generate_livefeed(company_id):
                             color = (0, 255, 0)  # Green
                         elif label in ["NO-Hardhat", "NO-Safety Vest"]:
                             color = (0, 0, 255)  # Red
-                        elif label in ["Person"]:
-                            color = (255, 0, 0)
+                        elif label == "Person":
+                            color = (255, 0, 0)  # Blue
                         else:
                             continue  # Skip bounding box for other labels
 
@@ -143,9 +143,20 @@ def generate_livefeed(company_id):
                             color,
                             2,
                         )
-            # # Send detected classes to the frontend
-            # if detected_classes:
-            #     send_detection_update(list(detected_classes))
+
+            # Display the person count in the top-left corner
+            cv2.putText(
+                frame,
+                f"Persons: {person_count}",
+                (10, 30),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1,
+                (255, 0, 0),  # White text color
+                2,
+                cv2.LINE_AA,
+            )
+            # Save frames with violations to the database
+            save_violating_detection(frame, results, company_id)
 
             # Convert processed frame to JPEG for streaming
             _, buffer = cv2.imencode(".jpg", frame)
