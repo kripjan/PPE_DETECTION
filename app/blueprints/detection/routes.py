@@ -4,7 +4,7 @@ from app import socketio
 from app.blueprints.detection import detection
 from app.blueprints.detection.services import *
 import base64
-from sqlalchemy.sql import func
+from sqlalchemy.sql import func, desc
 
 
 detected_classes = set()
@@ -52,6 +52,7 @@ def reports_page():
         .join(DetectionObject, Detection.id == DetectionObject.detection_id)
         .join(Object, DetectionObject.object_id == Object.id)
         .group_by(Detection.id, Detection.datetime, Detection.image_data)
+        .order_by(desc(Detection.datetime))  # Order by newest first
         .all()
     )
 
